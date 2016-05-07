@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
-var dbURI = 'mongodb://localhost/posdata';
 var models = require('../modules/models.js');
+
+var dbURI = models.dbURI;
 
 var user = require('./user.js');
 var token = require('./token.js');

@@ -1,39 +1,28 @@
-var data = {
-    site: {
-        name: 'Posdata',
-        description: 'Content management systems for online learning resources'
-    },
-    admin: {
-        email: 'your_email',
-        password: 'your_password',
-        name: 'your_name'
-    }
-};
-
-/* Stop editing! */
+var data = require('./modules/config');
 
 var mongoose = require('mongoose');
-var models = require('../modules/models.js');
+var models = require('./modules/models.js');
 var bcrypt = require('bcryptjs');
 var uuid = require('uuid');
-var dbURI = 'mongodb://localhost/posdata';
+
+var dbURI = models.dbURI;
 
 function migrate() {
     var User = mongoose.model('User', models.userSchema());
-    bcrypt.hash(data.admin.password, 10, function (err, hash) {
+    bcrypt.hash(data.config.admin.password, 10, function (err, hash) {
         User.create({
             userid: uuid.v4(),
-            email: data.admin.email;
+            email: data.config.admin.email,
             password: hash,
             role: 'admin',
-            name: data.admin.name;
+            name: data.config.admin.name
         }, function (userErr, user) {
             if (!userErr && user) {
                 console.log('User migrated');
                 var Meta = mongoose.model('Meta', models.metaSchema());
                 Meta.create([
-                    {user: user._id, key: 'site_name', value: data.site.name},
-                    {user: user._id, key: 'site_description', value: data.site.description}
+                    {user: user._id, key: 'site_name', value: data.config.site.name},
+                    {user: user._id, key: 'site_description', value: data.config.site.description}
                 ], function (metaErr, metas) {
                     if (!metaErr && metas) {
                         console.log('Meta data migrated');
@@ -52,7 +41,9 @@ function migrate() {
 
 mongoose.connection.on('connected', function () {
     console.log('Mongoose connected to ' + dbURI);
-}
+    migrate();
+});
+
 mongoose.connection.on('error', function (err) {
 	console.log('Mongoose connection error: ' + err);
 });

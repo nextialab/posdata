@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 
+exports.dbURI = 'mongodb://localhost/posdata';
+
 exports.userSchema = function () {
     return new mongoose.Schema({
         userid: {type: String, unique: true},
