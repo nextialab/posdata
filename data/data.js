@@ -8,10 +8,10 @@ var token = require('./token.js');
 var post = require('./post.js');
 var meta  = require('./meta.js');
 
-function createSchemas() {
+(function createSchemas() {
     /* User Schema */
     var userSchema = models.userSchema();
-    userSchema.statics.findUserByUserAndPass = user.findUserByUserAndPass;
+    userSchema.statics.findUserByEmailAndPass = user.findUserByEmailAndPass;
     mongoose.model('User', userSchema);
     /* Token Schema */
     var tokenSchema = models.tokenSchema();
@@ -34,10 +34,10 @@ function createSchemas() {
     metaSchema.statics.getSiteName = meta.getSiteName;
     metaSchema.statics.getSiteDescription = meta.getSiteDescription;
     mongoose.model('Meta', metaSchema);
-}
+})();
 
 mongoose.connection.on('connected', function () {
-    createSchemas();
+    //createSchemas();
 	console.log('Mongoose connected to ' + dbURI);
 });
 

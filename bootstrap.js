@@ -3,7 +3,6 @@ var data = require('./modules/config');
 var mongoose = require('mongoose');
 var models = require('./modules/models.js');
 var bcrypt = require('bcryptjs');
-var uuid = require('uuid');
 
 var dbURI = models.dbURI;
 
@@ -11,7 +10,6 @@ function migrate() {
     var User = mongoose.model('User', models.userSchema());
     bcrypt.hash(data.config.admin.password, 10, function (err, hash) {
         User.create({
-            userid: uuid.v4(),
             email: data.config.admin.email,
             password: hash,
             role: 'admin',

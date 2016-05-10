@@ -2,12 +2,12 @@ var uuid = require('uuid');
 
 exports.findToken = function (user, callback) {
     var model = this;
-    model.findOne({username: user}).exec(function (err, token) {
+    model.findOne({user: user}).exec(function (err, token) {
         if (!err) {
             if (token) {
                 callback.onResult(token);
             } else {
-                model.create({username: user, token: uuid.v4()}, function (err, token) {
+                model.create({user: user._id, token: uuid.v4()}, function (err, token) {
                     if (!err) {
                         callback.onResult(token);
                     } else {
@@ -21,11 +21,13 @@ exports.findToken = function (user, callback) {
     });
 };
 
-exports.isAuthenticated = function (username, token, callback) {
-    this.findOne({username: username, token: token}).exec(function (err, token) {
+exports.isAuthenticated = function (userid, token, callback) {
+    this.findOne({user: userid, token: token})
+    .populate('user')
+    .exec(function (err, token) {
         if (!err) {
             if (token) {
-                callback.onResult();
+                callback.onResult(token.user);
             } else {
                 callback.onError();
             }

@@ -1,7 +1,7 @@
 var bcrypt = require('bcryptjs');
 
-exporst.findUserByUserAndPass = function (username, password, callback) {
-    this.findOne({username: username}).exec(function (err, user) {
+exports.findUserByEmailAndPass = function (email, password, callback) {
+    this.findOne({email: email}).exec(function (err, user) {
         if (!err) {
             if (user) {
                 bcrypt.compare(password, user.password, function (err, result) {

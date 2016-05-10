@@ -4,7 +4,6 @@ exports.dbURI = 'mongodb://localhost/posdata';
 
 exports.userSchema = function () {
     return new mongoose.Schema({
-        userid: {type: String, unique: true},
         email: {type: String, unique: true},
     	password: String,
     	role: String,
@@ -16,9 +15,9 @@ exports.userSchema = function () {
 
 exports.tokenSchema = function () {
     return new mongoose.Schema({
-    	userid: String,
+        user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     	token: {type: String, unique: true},
-        expires: Date,
+        //TODO: expires: Date,
     	createdOn: {type: Date, default: Date.now}
     });
 };
