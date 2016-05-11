@@ -14,7 +14,7 @@ exports.validate = function (data) {
         if (valid) {
             next();
         } else {
-            res.status(400).json({error: 'Request require ' + valid});
+            res.status(400).json({error: 'Request require ' + require});
         }
     }
 }

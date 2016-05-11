@@ -1,7 +1,7 @@
-var data = require('./modules/config');
+var data = require('./config');
 
 var mongoose = require('mongoose');
-var models = require('./modules/models.js');
+var models = require('./modules/models');
 var bcrypt = require('bcryptjs');
 
 var dbURI = models.dbURI;

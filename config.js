@@ -1,7 +1,7 @@
 exports.config = {
     site: {
         name: 'Posdata',
-        description: 'Content management systems for online learning resources'
+        description: 'Content management system for online learning resources'
     },
     admin: {
         email: 'your_email',

@@ -36,9 +36,29 @@ router.get('/:userid', oauth.basic(), function (req, res, next) {
 });
 
 router.put('/:userid', oauth.basic(), function (req, res, next) {
-    // TODO: implement user update
+    User.findById(mongoose.Types.ObjectId(req.params.userid), function (err, user) {
+        if (!err && user) {
+            if (req.body.email) { user.email = req.body.email; }
+            if (req.body.name) { user.name = req.body.name; }
+            user.save(function (err) {
+                if (!err) {
+                    res.json(user);
+                } else {
+                    res.status(500).json({error: 'Could not update user'});
+                }
+            });
+        } else {
+            res.status(404).json({error: 'User not found'});
+        }
+    });
 });
 
+// Change password for current user
+router.put('/:userid/password', oauth.basic(), function (req, res, next) {
+
+});
+
+// Change role for a given user
 router.put('/:userid/role', oauth.role('admin'), function (req, res, next) {
     res.send('it works');
 });
