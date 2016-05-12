@@ -1,0 +1,19 @@
+nav.navbar.navbar-default(role='navigation')
+  div.container-fluid
+    div.navbar-header
+      a.navbar-brand(href='#') Posdatasonrie
+    ul.nav.navbar-nav
+      li(ng-class="getSectionClass(0)")
+        a(href="#/home", ng-click='setSection(0)') Home
+      li(ng-class="getSectionClass(1)")
+        a(href="#/posts", ng-click='setSection(1)') Posts
+      //- li(ng-class="getSectionClass(2)")
+        //- a(href='#/new', ng-click='setSection(2)') New post
+      li(ng-class="getSectionClass(3)")
+        a(href='#/media', ng-click="setSection(3)") Media
+    form.navbar-form.navbar-right
+      div.form-group
+        button.btn.btn-default(ng-click='logout()')
+          span.glyphicon.glyphicon-user
+div.container
+  div(ui-view='')

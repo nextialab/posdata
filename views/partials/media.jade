@@ -1,0 +1,6 @@
+div.form-group
+  button.btn.btn-default(type='button', ng-click='newMedia()') New
+div.row
+  div.col.col-sm-3(ng-repeat='media in medias')
+    a.thumbnail
+      img(ng-src='{{media.path}}')

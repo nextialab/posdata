@@ -1,0 +1,25 @@
+div.form-group
+  input.form-control(type='text', value='', placeholder='Awesome title', ng-model='title')
+div.form-group
+  textarea.form-control(rows='2', ng-model='summary', placeholder='Here goes the summary...')
+div.form-group
+  div.btn-group(role='group')
+    button.btn.btn-default(type='button', aria-hidden='true', ng-click='insertMedia()')
+      span.glyphicon.glyphicon-picture
+    button.btn.btn-default(type='button', aria-hidden='true', ng-click='seePreview()')
+      span.glyphicon.glyphicon-play
+    button.btn.btn-default(type='button', aria-hidden='true')
+      span.glyphicon.glyphicon-info-sign
+div.form-group
+  textarea.form-control(rows="20", ng-model='content', placeholder='Write something...', eb-caret='caret')
+div.row
+  div.col.col-sm-2
+    div.form-group
+      select.form-control(ng-model='status')
+        option(value='draft') Draft
+        option(value='publish') Publish
+  div.col.col-sm-2
+    div.form-group
+      button.btn.btn-success.form-control(ng-click='save()', ng-disabled='disabled()') Update
+  div.col.col-sm-1
+    img(src='/images/loading.gif', ng-show='loading')

@@ -1,0 +1,14 @@
+div.container
+  h2 Posdatasonrie
+  form.form-horizontal(name='loginForm')
+    div.form-group
+      label.col-sm-2.control-label(for='username') Username:
+      div.col-sm-8
+        input.form-control(type='text', value='', placeholder='username', ng-model='username', required='')
+    div.form-group
+      label.col-sm-2.control-label(for='password') Password:
+      div.col-sm-8
+        input.form-control(type='password', value='', placeholder='password', ng-model='password', required='')
+    div.form-group
+      div.col-sm-10.col-sm-offset-2
+        input.btn.btn-success(type='submit', value='Login', ng-click='login()', ng-disabled='loginDisabled()')

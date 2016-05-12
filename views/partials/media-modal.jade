@@ -1,0 +1,9 @@
+div.panel-heading
+  p Choose media
+div.panel-body
+  div.row
+    div.col.col-xs-6(ng-repeat="media in medias")
+      a.thumbnail(ng-click="select($index)")
+        img(ng-src="{{media.path}}")
+div.panel-footer
+  button.btn Close
