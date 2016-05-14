@@ -7,7 +7,6 @@ angular.module('services').factory('SessionService', ['APIService', function (AP
         LOGGED_IN: LOGGED_IN,
         LOGGED_OUT: LOGGED_OUT,
         login: function (username, password, callback) {
-            console.log('Calling login in SessionService');
             APIService.login(username, password, {
                 success: function (token) {
                     state = LOGGED_IN;

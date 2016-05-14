@@ -22,6 +22,14 @@ exports.tokenSchema = function () {
     });
 };
 
+exports.tagSchema = function () {
+    return new mongoose.Schema({
+        user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        name: {type: String, unique: true},
+        createdOn: {type: Date, default: Date.now}
+    });
+};
+
 exports.postSchema = function () {
     return new mongoose.Schema({
     	uri: {type: String, unique: true},
@@ -30,11 +38,29 @@ exports.postSchema = function () {
     	title: String,
         summary: {type: String, default: ''},
     	content: {type: String, default: ''},
+        tags: [String],
+        language: {type: String, default: 'es'},
     	status: {type: String, default: 'draft'},
     	createdOn: {type: Date, default: Date.now},
     	modifiedOn: {type: Date, default: Date.now}
     });
 };
+
+exports.videoSchema = function () {
+    return new mongoose.Schema({
+    	uri: {type: String, unique: true},
+        author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    	normalized: String,
+    	title: String,
+        url: String,
+        caption: String,
+        tags: [String],
+        language: {type: String, default: 'es'},
+        status: {type: String, default: 'draft'},
+        createdOn: {type: Date, default: Date.now},
+        modifiedOn: {type: Date, default: Date.now}
+    });
+}
 
 exports.mediaSchema = function () {
     return new mongoose.Schema({
