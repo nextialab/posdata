@@ -34,7 +34,7 @@ router.get('/:userid', oauth.basic(), function (req, res, next) {
 
 router.post('/:userid', oauth.basic(), uploading.single('image'), function (req, res, next) {
     var newMedia = {};
-    newMedia.userid = mongoose.Types.ObjectId(req.params.userid);
+    newMedia.user = mongoose.Types.ObjectId(req.params.userid);
     newMedia.path = '/uploads/' + req.file.filename
     if (req.body.label) { newMedia.label = req.body.label; }
     if (req.body.caption) { newMedia.caption = req.body.caption; }

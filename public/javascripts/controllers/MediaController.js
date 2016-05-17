@@ -11,7 +11,7 @@ angular.module('controllers').controller('MediaController', ['$scope', 'APIServi
     });
     $scope.newMedia = function () {
         $uibModal.open({
-            templateUrl: '/admin/templates/new-media-modal',
+            templateUrl: '/admin/templates/media-new-modal',
             controller: 'UploadMediaController'
         }).result.then(function (media) {
             $scope.medias.splice(0, 0, media);

@@ -46,7 +46,13 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
     };
     $scope.save = function () {
         $scope.loading = true;
-        PostsService.updatePost($stateParams.postid, $scope.title, $scope.summary, $scope.content, $scope.status, {
+        var data = {
+            title: $scope.title,
+            summary: $scope.summary,
+            content: $scope.content,
+            status: $scope.status
+        };
+        APIService.updatePost($stateParams.postid, data, {
             success: function (post) {
                 $scope.loading = false;
                 console.log(post);
