@@ -13,7 +13,7 @@ angular.module('controllers').controller('MainController', ['$scope', '$state', 
         SessionService.logout({
             success: function () {
                 StorageService.setItem('token', '');
-                StorageService.setItem('username', '');
+                StorageService.setItem('userid', '');
                 $state.go('login');
             },
             error: function (error) {

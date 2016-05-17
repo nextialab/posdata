@@ -20,7 +20,7 @@ angular.module('admin', ['ui.router', 'controllers', 'services'])
         controller: 'PostsController'
     }).state('admin.edit', {
         url: 'posts/:postid',
-        templateUrl: '/admin/templates/edit',
+        templateUrl: '/admin/templates/post-edit',
         controller: 'EditPostController'
     }).state('admin.media', {
         url: 'media',
@@ -43,12 +43,12 @@ angular.module('admin', ['ui.router', 'controllers', 'services'])
         }
     });
     var token = StorageService.getItem('token');
-    var username = StorageService.getItem('username');
-    console.log(token + ' ' + username);
-    if (token.length > 0 && username.length > 0) {
+    var userid = StorageService.getItem('userid');
+    console.log(token + ' ' + userid);
+    if (token.length > 0 && userid.length > 0) {
         console.log('logged');
         APIService.setToken(token);
-        APIService.setUsername(username);
+        APIService.setUserid(userid);
         SessionService.setState(SessionService.LOGGED_IN);
         $state.go('admin.home');
     }

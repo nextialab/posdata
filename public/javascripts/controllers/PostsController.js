@@ -1,7 +1,7 @@
 'use strict';
-angular.module('controllers').controller('PostsController', ['$scope', '$uibModal', 'PostsService', function ($scope, $uibModal, PostsService) {
+angular.module('controllers').controller('PostsController', ['$scope', '$uibModal', 'APIService', function ($scope, $uibModal, APIService) {
     $scope.posts = [];
-    PostsService.getPosts({
+    APIService.getPosts({
         success: function (posts) {
             $scope.posts = posts;
         },
@@ -11,7 +11,7 @@ angular.module('controllers').controller('PostsController', ['$scope', '$uibModa
     });
     $scope.newPost = function () {
         $uibModal.open({
-            templateUrl: '/admin/templates/new-post-modal',
+            templateUrl: '/admin/templates/post-new-modal',
             controller: 'NewPostController'
         }).result.then(function (post) {
             $scope.posts.splice(0, 0, post);

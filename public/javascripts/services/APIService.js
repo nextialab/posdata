@@ -22,7 +22,7 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
             }).then(function (data) {
                 token = data.data.token;
                 userid = data.data.userid;
-                callback.success(token);
+                callback.success(data.data);
             }, function (error) {
                 callback.error();
             });
@@ -43,7 +43,7 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
         },
         logout: function (callback) {
             token = '';
-            username = '';
+            userid = '';
             callback.success();
         },
         getPosts: function (callback) {

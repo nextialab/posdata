@@ -60,6 +60,7 @@ router.put('/:userid/post/:postid', oauth.basic(), function (req, res, next) {
                 if (req.body.summary) { post.summary = req.body.summary; }
                 if (req.body.content) { post.content = req.body.content; }
                 if (req.body.status) { post.status = req.body.status; }
+                if (req.body.language) { post.language = req.body.language; }
                 postToSave.save(function (err) {
                     if (!err) {
                         res.json(postToSave);

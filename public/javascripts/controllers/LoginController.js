@@ -5,8 +5,8 @@ angular.module('controllers').controller('LoginController', ['$scope', '$state',
     $scope.login = function () {
         SessionService.login($scope.username, $scope.password, {
             success: function (token) {
-                StorageService.setItem('token', token);
-                StorageService.setItem('username', $scope.username);
+                StorageService.setItem('token', token.token);
+                StorageService.setItem('userid', token.userid);
                 $state.go('admin.home');
             },
             error: function (error) {

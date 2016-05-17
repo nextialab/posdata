@@ -1,5 +1,5 @@
 'use strict';
-angular.module('controllers').controller('NewPostController', ['$scope', '$uibModalInstance', 'PostsService', function ($scope, $uibModalInstance, PostsService) {
+angular.module('controllers').controller('NewPostController', ['$scope', '$uibModalInstance', 'APIService', function ($scope, $uibModalInstance, APIService) {
     $scope.title = '';
     $scope.summary = '';
     $scope.loading = false;
@@ -7,7 +7,7 @@ angular.module('controllers').controller('NewPostController', ['$scope', '$uibMo
         return $scope.loading || $scope.title.length == 0;
     };
     $scope.create = function () {
-        PostsService.createPost($scope.title, $scope.summary, {
+        APIService.createPost($scope.title, $scope.summary, {
             success: function (post) {
                 $uibModalInstance.close(data);
             },
