@@ -1,26 +1,16 @@
 'use strict';
-angular.module('services').factory('StorageService', [function () {
-    var storage = false;
-    if (typeof(Storage) !== undefined) {
-        storage = true;
-    }
+angular.module('services').factory('StorageService', ['$cookies', function ($cookies) {
     return {
         getItem: function (name) {
-            if (storage) {
-                var value = localStorage.getItem(name);
-                if (value !== null) {
-                    return value;
-                } else {
-                    return '';
-                }
+            var value = $cookies.get(name);
+            if (value !== undefined) {
+                return value;
             } else {
                 return '';
             }
         },
         setItem: function (name, value) {
-            if (storage) {
-                localStorage.setItem(name, value);
-            }
+            $cookies.put(name, value);
         }
     };
 }]);

@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/templates/:template', function (req, res, next) {
-    res.render('partials/' + req.params.template);
+    res.render('admin/' + req.params.template);
 });
 
 module.exports = router;

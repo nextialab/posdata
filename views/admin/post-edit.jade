@@ -1,17 +1,19 @@
 div.form-group
-  input.form-control(type='text', value='', placeholder='Awesome title', ng-model='title')
+  input.form-control(type='text', value='', placeholder='Título impresionante...', ng-model='title')
 div.form-group
-  textarea.form-control(rows='2', ng-model='summary', placeholder='Here goes the summary...')
+  textarea.form-control(rows='2', ng-model='summary', placeholder='Extracto...')
 div.form-group
   div.btn-group(role='group')
     button.btn.btn-default(type='button', aria-hidden='true', ng-click='insertMedia()')
       span.glyphicon.glyphicon-picture
+    button.btn.btn-default(type='button', aria-hidden='true')
+      span.glyphicon.glyphicon-link
     button.btn.btn-default(type='button', aria-hidden='true', ng-click='seePreview()')
       span.glyphicon.glyphicon-play
     button.btn.btn-default(type='button', aria-hidden='true')
       span.glyphicon.glyphicon-info-sign
 div.form-group
-  textarea.form-control(rows="20", ng-model='content', placeholder='Write something...', eb-caret='caret')
+  textarea.form-control(rows="20", ng-model='content', placeholder='Escribe aquí tus ideas...', eb-caret='caret')
 div.form-group
   input.form-control(type='text', value='', placeholder='tags')
 div.row
@@ -23,8 +25,8 @@ div.row
   div.col.col-sm-2
     div.form-group
       select.form-control(ng-model='status')
-        option(value='draft') Draft
-        option(value='publish') Publish
+        option(value='draft') Borrador
+        option(value='publish') Publicado
   div.col.col-sm-1
     div.form-group
-      button.btn.btn-success.form-control(ng-click='save()', ng-disabled='disabled()') Update
+      button.btn.btn-success.form-control(ng-click='save()', ng-disabled='disabled()') Guardar

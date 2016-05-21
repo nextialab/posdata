@@ -1,0 +1,14 @@
+div.form-group
+  button.btn.btn-default(type='button', ng-click='newPost()') Nueva publicación
+div.panel.panel-default(ng-repeat='post in posts')
+  div.panel-body
+    div.row
+      div.col.col-sm-11
+        p {{post.title}}
+      div.col.sol-sm-1
+        span.glyphicon.glyphicon-book
+    div.row
+      div.col.col-sm-12
+        a(href='#/posts/{{post._id}}') Editar
+  div.panel-footer
+    a(href="/blog/{{post.uri}}") Ver

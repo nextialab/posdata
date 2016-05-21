@@ -1,0 +1,14 @@
+div.panel-heading
+  p Nueva publicación
+div.panel-body
+  div.form-group
+    input.form-control(type='text', placeholder='Título impresionante...', ng-model='title')
+  div.form-group
+    textarea.form-control(rows='2', placeholder='Extracto...', ng-model='summary')
+  div.form-group
+    select.form-control
+      option(value='post') Post
+      option(value='video') Vídeo
+      option(value='image') Imagen
+div.panel-footer
+  button.btn(ng-click='create()', ng-disabled='disabled()') Crear

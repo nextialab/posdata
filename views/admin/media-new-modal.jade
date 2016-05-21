@@ -1,0 +1,15 @@
+div.panel-heading
+  p Subir imagen
+div.panel-body
+  div.form-group
+    input.form-control(type='text', ng-model="label", placeholder='Etiqueta...')
+  div.form-group
+    input.form-control(type='text', ng-model='caption', placeholder='Sub-título...')
+  div.form-group
+    input.form-control(type="file", id="file", name="file", fileread='file')
+  div.row(ng-show='loaded')
+    div.col.col-sm-4.col-sm-offset-4
+      a.thumbnail
+        img(ng-src='{{src}}')
+div.panel-footer
+  button.btn.btn-success(ng-click='upload()', ng-disabled='disabled()', ladda='loading', data-style='expand-right') Subir

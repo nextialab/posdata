@@ -1,8 +1,0 @@
-div.form-group
-  button.btn.btn-default(type='button', ng-click='newPost()') New
-div.panel.panel-default(ng-repeat='post in posts')
-  div.panel-body
-    p {{post.title}}
-    a(href='#/posts/{{post._id}}') Edit
-  div.panel-footer
-    a(href="/blog/{{post.uri}}") See

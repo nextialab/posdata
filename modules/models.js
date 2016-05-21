@@ -32,11 +32,14 @@ exports.tagSchema = function () {
 
 exports.postSchema = function () {
     return new mongoose.Schema({
-    	uri: {type: String, unique: true},
+    	uri: String,
+        type: {type: String, default: 'post'},
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     	normalized: String,
     	title: String,
+        image: {type: String, default: ''},
         summary: {type: String, default: ''},
+        videoUrl: {type: String, default: ''},
     	content: {type: String, default: ''},
         tags: [String],
         language: {type: String, default: 'es'},
@@ -46,21 +49,25 @@ exports.postSchema = function () {
     });
 };
 
-exports.videoSchema = function () {
+exports.testSchema = function () {
     return new mongoose.Schema({
-    	uri: {type: String, unique: true},
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    	normalized: String,
-    	title: String,
-        url: String,
-        caption: String,
-        tags: [String],
-        language: {type: String, default: 'es'},
-        status: {type: String, default: 'draft'},
+        title: String,
         createdOn: {type: Date, default: Date.now},
         modifiedOn: {type: Date, default: Date.now}
     });
-}
+};
+
+exports.questionSchema = function () {
+    return new mongoose.Schema({
+        test: {type: mongoose.Schema.Types.ObjectId, ref: 'Test'},
+        question: String,
+        type: {type: String, default: 'text'},
+        answer: String,
+        createdOn: {type: Date, default: Date.now},
+        modifiedOn: {type: Date, default: Date.now}
+    });
+};
 
 exports.mediaSchema = function () {
     return new mongoose.Schema({
@@ -73,6 +80,15 @@ exports.mediaSchema = function () {
     });
 };
 
+exports.themeSchema = function () {
+    return new mongoose.Schema({
+        name: {type: String, unique: true},
+        active: Boolean,
+        createdOn: {type: Date, default: Date.now},
+        modifiedOn: {type: Date, default: Date.now}
+    });
+}
+
 exports.metaSchema = function () {
     return new mongoose.Schema({
         user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -82,14 +98,3 @@ exports.metaSchema = function () {
         modifiedOn: {type: Date, default: Date.now}
     });
 };
-
-exports.albumSchema = function () {
-    return new mongoose.Schema({
-        user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        album: [{type: mongoose.Schema.Types.ObjectId, ref: 'Media'}],
-        name: String,
-        caption: {type: String, default: ''},
-        createdOn: {type: Date, default: Date.now},
-        modifiedOn: {type: Date, default: Date.now}
-    });
-}
