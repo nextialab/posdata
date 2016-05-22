@@ -1,7 +1,14 @@
 doctype html
 html
   head
+    meta(name='viewport', content='width=device-width')
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/posdata.css')
   body
-    p Hello World! I am a default theme
+    div.jumbotron
+      div.container
+        h1 Posdata
+    div.container
+      h2 Bienvenido a posdata

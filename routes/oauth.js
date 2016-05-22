@@ -33,4 +33,8 @@ router.delete('/:userid/revoke', oauth.basic(), function (req, res, next) {
     // TODO: implement token revoke
 });
 
+router.delete('/:userid/revoke/all', oauth.basic(), function (req, res, next) {
+    // TODO: implement token revoke all
+});
+
 module.exports = router;

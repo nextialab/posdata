@@ -12,6 +12,7 @@ var users = require('./routes/users');
 var posts = require('./routes/posts');
 var media = require('./routes/media');
 var admin = require('./routes/admin');
+var content = require('./routes/content');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/content', content);
 app.use('/_api/oauth', oauth);
 app.use('/_api/users', users);
 app.use('/_api/posts', posts);
