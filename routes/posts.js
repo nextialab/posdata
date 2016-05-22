@@ -57,10 +57,15 @@ router.put('/:userid/post/:postid', oauth.basic(), function (req, res, next) {
     Post.findById(mongoose.Types.ObjectId(req.params.postid), function (errPost, post) {
         if (!errPost && post) {
             function savePost(postToSave) {
-                if (req.body.summary) { post.summary = req.body.summary; }
-                if (req.body.content) { post.content = req.body.content; }
-                if (req.body.status) { post.status = req.body.status; }
-                if (req.body.language) { post.language = req.body.language; }
+                if (req.body.summary) { postToSave.summary = req.body.summary; }
+                if (req.body.content) { postToSave.content = req.body.content; }
+                if (req.body.status) { postToSave.status = req.body.status; }
+                if (req.body.language) { postToSave.language = req.body.language; }
+                if (req.body.tags) {
+                    postToSave.tags = req.body.tags.split(",").map(function (str) {
+                        return str.trim();
+                    });
+                }
                 postToSave.save(function (err) {
                     if (!err) {
                         res.json(postToSave);

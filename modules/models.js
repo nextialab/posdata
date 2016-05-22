@@ -25,7 +25,7 @@ exports.tokenSchema = function () {
 exports.tagSchema = function () {
     return new mongoose.Schema({
         user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-        name: {type: String, unique: true},
+        name: String,
         createdOn: {type: Date, default: Date.now}
     });
 };
