@@ -60,11 +60,11 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                 callback.error(error);
             });
         },
-        createPost: function (title, summary, callback) {
+        createPost: function (title, summary, type, callback) {
             $http({
                 method: 'POST',
                 url: url + 'posts/' + userid,
-                data: {title: title, summary: summary},
+                data: {title: title, summary: summary, type: type},
                 responseType: 'json',
                 headers: {
                     'Authorization': token

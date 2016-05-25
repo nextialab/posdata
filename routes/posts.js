@@ -18,7 +18,7 @@ router.get('/:userid', oauth.basic(), function (req, res, next) {
     });
 });
 
-router.post('/:userid', oauth.basic(), valid.validate(['title']), function (req, res, next) {
+router.post('/:userid', oauth.basic(), valid.validate(['title', 'type']), function (req, res, next) {
     Post.getUniqueUriForNewPost(req.body.title, {
         onResult: function (uri, normalized) {
             var userid = mongoose.Types.ObjectId(req.params.userid);
@@ -26,6 +26,7 @@ router.post('/:userid', oauth.basic(), valid.validate(['title']), function (req,
                 author: userid,
                 uri: uri,
                 normalized: normalized,
+                type: req.body.type,
                 title: req.body.title
             };
             if (req.body.summary) { newPost.summary = req.body.summary; }
@@ -61,6 +62,7 @@ router.put('/:userid/post/:postid', oauth.basic(), function (req, res, next) {
                 if (req.body.content) { postToSave.content = req.body.content; }
                 if (req.body.status) { postToSave.status = req.body.status; }
                 if (req.body.language) { postToSave.language = req.body.language; }
+                if (req.body.type) { postToSave.type = req.body.type; }
                 if (req.body.tags) {
                     postToSave.tags = req.body.tags.split(",").map(function (str) {
                         return str.trim();

@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width')
+    title= title
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/posdata.css')
+  body
+    nav.navbar.navbar-default(role='navigation')
+      div.container-fluid
+        div.navbar-header
+          a.navbar-brand(href='/') Posdata
+    div.container
+      ol.breadcrumb
+        li
+          a(href='/') Home
+        li
+          a(href='/blog/') Blog
+        li #{post.title}
+      h1 #{post.title}
+      article
+        !{post.content}

@@ -6,6 +6,7 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
     $scope.hasError = false;
     $scope.error = 'Something happened';
     $scope.title = '';
+    $scope.tags = '';
     APIService.getPost($stateParams.postid, {
         success: function (post) {
             $scope.title = post.title;
@@ -13,6 +14,7 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
             $scope.uri = post.uri;
             $scope.status = post.status;
             $scope.summary = post.summary;
+            $scope.tags = post.tags.join(', ');
         },
         error: function (error) {
             console.log(error);
@@ -50,7 +52,8 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
             title: $scope.title,
             summary: $scope.summary,
             content: $scope.content,
-            status: $scope.status
+            status: $scope.status,
+            tags: $scope.tags,
         };
         APIService.updatePost($stateParams.postid, data, {
             success: function (post) {
