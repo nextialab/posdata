@@ -72,7 +72,7 @@ router.get('/post/:uri', function (req, res, next) {
                 var post = {};
                 post.title = _post.title;
                 post.content = marked(_post.content);
-                res.render('post', {description: _post.summary, post: post});
+                res.render('default/post', {description: _post.summary, post: post});
             } else {
                 res.status(404);
             }

@@ -17,5 +17,5 @@ html
           a(href='/') Home
         li.active Blog
       each post in posts
-        a(href='/content/#{post.uri}') #[h2 #{post.title}]
+        a(href='/content/post/#{post.uri}') #[h2 #{post.title}]
         p #{post.summary}

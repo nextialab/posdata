@@ -6,7 +6,7 @@ div.form-group
   div.btn-group(role='group')
     button.btn.btn-default(type='button', aria-hidden='true', ng-click='insertMedia()')
       span.glyphicon.glyphicon-picture
-    button.btn.btn-default(type='button', aria-hidden='true')
+    button.btn.btn-default(type='button', aria-hidden='true', ng-click='insertLink()')
       span.glyphicon.glyphicon-link
     button.btn.btn-default(type='button', aria-hidden='true', ng-click='seePreview()')
       span.glyphicon.glyphicon-play
@@ -27,6 +27,8 @@ div.row
       select.form-control(ng-model='status')
         option(value='draft') Borrador
         option(value='publish') Publicado
-  div.col.col-sm-1
+  div.col.col-sm-2
     div.form-group
       button.btn.btn-success.form-control(ng-click='save()', ng-disabled='disabled()') Guardar
+div(style='position: fixed; right: 10px; bottom: 10px; width: 300px;')
+  div(uib-alert='', ng-repeat='alert in alerts', type='{{alert.type}}', close='closeAlert($index)', dismiss-on-timeout='3000') {{alert.msg}}

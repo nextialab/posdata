@@ -1,12 +1,13 @@
 'use strict';
 angular.module('controllers').controller('EditPostController', ['$scope', '$uibModal', '$stateParams', 'APIService', function ($scope, $uibModal, $stateParams, APIService) {
     $scope.loading = false;
-    $scope.hasMessage = false;
-    $scope.message = 'Saved!';
-    $scope.hasError = false;
-    $scope.error = 'Something happened';
     $scope.title = '';
+    $scope.content = '';
+    $scope.uri = '';
+    $scope.status = 'draft';
+    $scope.summary = '';
     $scope.tags = '';
+    $scope.alerts = [];
     APIService.getPost($stateParams.postid, {
         success: function (post) {
             $scope.title = post.title;
@@ -17,7 +18,7 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
             $scope.tags = post.tags.join(', ');
         },
         error: function (error) {
-            console.log(error);
+            $scope.alerts.push({type: 'danger', msg: 'Post no existe'});
         }
     });
     $scope.seePreview = function () {
@@ -43,6 +44,18 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
             console.log('modal dismissed');
         });
     };
+    $scope.insertLink = function () {
+        $uibModal.open({
+            templateUrl: '/admin/templates/link-new-modal',
+            controller: 'LinkModalController'
+        }).result.then(function (link) {
+            var index = $scope.caret.get || 0;
+            var content = $scope.content;
+            $scope.content = content.slice(0, index) + '[' + link.text + '](' + link.link + ')' + content.slice(index);
+        }, function () {
+            console.log('modal dismissed');
+        });
+    };
     $scope.disabled = function () {
         return $scope.loading || $scope.title.length == 0;
     };
@@ -58,11 +71,14 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
         APIService.updatePost($stateParams.postid, data, {
             success: function (post) {
                 $scope.loading = false;
-                console.log(post);
+                $scope.alerts.push({type: 'success', msg: 'Guardado'});
             },
             error: function (error) {
-                console.log(error);
+                $scope.alerts.push({type: 'danger', msg: 'No se pudo guardar'});
             }
         });
     };
+    $scope.closeAlert = function (index) {
+        $scope.alerts.splice(index, 1);
+    }
 }]);

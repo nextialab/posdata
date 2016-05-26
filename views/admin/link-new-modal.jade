@@ -1,0 +1,9 @@
+div.panel-heading
+  p Nueva liga
+div.panel-body
+  div.form-group
+    input.form-control(type='text', ng-model='text', placeholder='Texto')
+  div.form-group
+    input.form-control(type='text', ng-model='link', placeholder='Liga')
+div.panel-footer
+  button.btn.btn-success(ng-click='done()', ng-disabled='disabled()') OK
