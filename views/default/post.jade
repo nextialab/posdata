@@ -16,8 +16,12 @@ html
         li
           a(href='/') Home
         li
-          a(href='/blog/') Blog
+          a(href='/content/') Blog
         li #{post.title}
       h1 #{post.title}
+      if post.type === 'video'
+        p #{post.videoUrl}
+      if post.type === 'image'
+        img(src=post.image)
       article
         !{post.content}
