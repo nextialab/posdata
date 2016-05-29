@@ -7,20 +7,32 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
     $scope.status = 'draft';
     $scope.summary = '';
     $scope.tags = '';
+    $scope.videoUrl = '';
+    $scope.image = '';
+    $scope.type = 'post';
     $scope.alerts = [];
     APIService.getPost($stateParams.postid, {
         success: function (post) {
             $scope.title = post.title;
-            $scope.content = post.content;
+            $scope.content = post.markdown;
             $scope.uri = post.uri;
             $scope.status = post.status;
             $scope.summary = post.summary;
+            $scope.videoUrl = post.videoUrl;
+            $scope.image = post.image;
+            $scope.type = post.type;
             $scope.tags = post.tags.join(', ');
         },
         error: function (error) {
             $scope.alerts.push({type: 'danger', msg: 'Post no existe'});
         }
     });
+    $scope.isVideo = function () {
+        return $scope.type === 'video';
+    };
+    $scope.isImage = function () {
+        return $scope.type === 'image';
+    };
     $scope.seePreview = function () {
         $uibModal.open({
             templateUrl: '/admin/templates/post-preview-modal',
@@ -30,6 +42,16 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
                     return $scope.content;
                 }
             }
+        });
+    };
+    $scope.addImage = function () {
+        $uibModal.open({
+            templateUrl: '/admin/templates/media-select-modal',
+            controller: 'MediaModalController'
+        }).result.then(function (path) {
+            $scope.image = path;
+        }, function () {
+            console.log('modal dismissed');
         });
     };
     $scope.insertMedia = function () {
@@ -66,6 +88,8 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
             summary: $scope.summary,
             content: $scope.content,
             status: $scope.status,
+            videoUrl: $scope.videoUrl,
+            image: $scope.image,
             tags: $scope.tags,
         };
         APIService.updatePost($stateParams.postid, data, {
@@ -80,5 +104,5 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
     };
     $scope.closeAlert = function (index) {
         $scope.alerts.splice(index, 1);
-    }
+    };
 }]);

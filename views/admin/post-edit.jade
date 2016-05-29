@@ -12,6 +12,14 @@ div.form-group
       span.glyphicon.glyphicon-play
     button.btn.btn-default(type='button', aria-hidden='true')
       span.glyphicon.glyphicon-info-sign
+div.form-group(ng-show='isVideo()')
+  input.form-control(type='text', value='', placeholder='Video URL', ng-model='videoUrl')
+div.row(ng-show='isImage()')
+  div.col.col-sm-2
+    div.form-group
+      button.btn.btn-success.form-control(ng-click='addImage()') Modificar
+  div.col.col-sm-4
+    p {{image}}
 div.form-group
   textarea.form-control(rows="20", ng-model='content', placeholder='Escribe aquí tus ideas...', eb-caret='caret')
 div.form-group

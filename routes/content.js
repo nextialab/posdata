@@ -1,6 +1,5 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var marked = require('marked');
 
 var router = express.Router();
 var Post = mongoose.model('Post');
@@ -69,10 +68,7 @@ router.get('/post/:uri', function (req, res, next) {
     Post.findOne({uri: req.params.uri}).exec(function (err, _post) {
         if (!err) {
             if (_post && _post.status === 'publish') {
-                var post = {};
-                post.title = _post.title;
-                post.content = marked(_post.content);
-                res.render('default/post', {description: _post.summary, post: post});
+                res.render('default/post', {description: _post.summary, post: _post});
             } else {
                 res.status(404);
             }

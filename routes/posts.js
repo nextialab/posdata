@@ -6,6 +6,7 @@ var valid = require('../modules/valid.js');
 var router = express.Router();
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
+var marked = require('marked');
 
 router.get('/:userid', oauth.basic(), function (req, res, next) {
     var userid = mongoose.Types.ObjectId(req.params.userid);
@@ -59,10 +60,15 @@ router.put('/:userid/post/:postid', oauth.basic(), function (req, res, next) {
         if (!errPost && post) {
             function savePost(postToSave) {
                 if (req.body.summary) { postToSave.summary = req.body.summary; }
-                if (req.body.content) { postToSave.content = req.body.content; }
+                if (req.body.content) {
+                    postToSave.markdown = req.body.content;
+                    postToSave.content = marked(req.body.content);
+                }
                 if (req.body.status) { postToSave.status = req.body.status; }
                 if (req.body.language) { postToSave.language = req.body.language; }
                 if (req.body.type) { postToSave.type = req.body.type; }
+                if (req.body.videoUrl) { postToSave.videoUrl = req.body.videoUrl; }
+                if (req.body.image) { postToSave.image = req.body.image; }
                 if (req.body.tags) {
                     postToSave.tags = req.body.tags.split(",").map(function (str) {
                         return str.trim();

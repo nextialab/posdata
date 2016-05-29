@@ -40,6 +40,7 @@ exports.postSchema = function () {
         image: {type: String, default: ''},
         summary: {type: String, default: ''},
         videoUrl: {type: String, default: ''},
+        markdown: {type: String, default: ''},
     	content: {type: String, default: ''},
         tags: [String],
         language: {type: String, default: 'es'},
