@@ -3,12 +3,12 @@ nav.navbar.navbar-default(role='navigation')
     div.navbar-header
       a.navbar-brand(href='#') Posdata
     ul.nav.navbar-nav
-      li(ng-class="getSectionClass(0)")
-        a(href="#/home", ng-click='setSection(0)') Inicio
-      li(ng-class="getSectionClass(1)")
-        a(href="#/posts", ng-click='setSection(1)') Publicaciones
-      li(ng-class="getSectionClass(2)")
-        a(href='#/media', ng-click="setSection(2)") Imagenes
+      li(ng-class='getSectionClass("home")')
+        a(href='#/home') Inicio
+      li(ng-class='getSectionClass("posts")')
+        a(href='#/posts') Publicaciones
+      li(ng-class='getSectionClass("media")')
+        a(href='#/media') Imagenes
     form.navbar-form.navbar-right
       div.form-group
         button.btn.btn-default(ng-click='logout()')

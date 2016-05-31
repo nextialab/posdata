@@ -1,5 +1,5 @@
 'use strict';
-angular.module('controllers').controller('MediaController', ['$scope', 'APIService', '$uibModal', function ($scope, APIService, $uibModal) {
+angular.module('controllers').controller('MediaController', ['$scope', 'APIService', 'SectionService', '$uibModal', function ($scope, APIService, SectionService, $uibModal) {
     $scope.medias = [];
     APIService.getMedia({
         success: function (_data) {
@@ -19,4 +19,5 @@ angular.module('controllers').controller('MediaController', ['$scope', 'APIServi
             console.log('modal dismissed');
         });
     };
+    SectionService.setCurrentSection(SectionService.MEDIA);
 }]);

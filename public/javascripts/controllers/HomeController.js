@@ -1,5 +1,5 @@
 'use strict';
-angular.module('controllers').controller('HomeController', ['$scope', 'APIService', function ($scope, APIService) {
+angular.module('controllers').controller('HomeController', ['$scope', 'APIService', 'SectionService', function ($scope, APIService, SectionService) {
     $scope.username = '';
     var date = new Date();
     var hours = date.getHours();
@@ -18,4 +18,5 @@ angular.module('controllers').controller('HomeController', ['$scope', 'APIServic
             console.log(error);
         }
     });
+    SectionService.setCurrentSection(SectionService.HOME);
 }]);

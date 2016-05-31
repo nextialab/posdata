@@ -6,9 +6,6 @@ angular.module('controllers').controller('MainController', ['$scope', '$state', 
         }
         return '';
     };
-    $scope.setSection = function (section) {
-        SectionService.setSection(section);
-    };
     $scope.logout = function () {
         SessionService.logout({
             success: function () {

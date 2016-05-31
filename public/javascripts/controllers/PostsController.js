@@ -1,5 +1,5 @@
 'use strict';
-angular.module('controllers').controller('PostsController', ['$scope', '$uibModal', 'APIService', function ($scope, $uibModal, APIService) {
+angular.module('controllers').controller('PostsController', ['$scope', '$uibModal', 'APIService', 'SectionService', function ($scope, $uibModal, APIService, SectionService) {
     $scope.posts = [];
     APIService.getPosts({
         success: function (posts) {
@@ -19,4 +19,5 @@ angular.module('controllers').controller('PostsController', ['$scope', '$uibModa
             console.log('modal dismissed');
         });
     };
+    SectionService.setCurrentSection(SectionService.POSTS);
 }]);
