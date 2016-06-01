@@ -1,7 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var oauth = require('../modules/oauth.js');
-var valid = require('../modules/valid.js');
+var oauth = require('../modules/oauth');
+var valid = require('../modules/valid');
 
 var router = express.Router();
 var User = mongoose.model('User');
