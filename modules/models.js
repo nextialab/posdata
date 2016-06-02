@@ -92,7 +92,6 @@ exports.themeSchema = function () {
 
 exports.metaSchema = function () {
     return new mongoose.Schema({
-        user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         key: String,
         value: String,
         createdOn: {type: Date, default: Date.now},

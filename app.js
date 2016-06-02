@@ -12,6 +12,7 @@ var users = require('./routes/users');
 var posts = require('./routes/posts');
 var media = require('./routes/media');
 var admin = require('./routes/admin');
+var settings = require('./routes/settings');
 var content = require('./routes/content');
 
 var app = express();
@@ -34,6 +35,7 @@ app.use('/_api/oauth', oauth);
 app.use('/_api/users', users);
 app.use('/_api/posts', posts);
 app.use('/_api/media', media);
+app.use('/_api/settings', settings);
 app.use('/admin', admin);
 
 // catch 404 and forward to error handler

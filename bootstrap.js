@@ -19,8 +19,9 @@ function migrate() {
                 console.log('User migrated');
                 var Meta = mongoose.model('Meta', models.metaSchema());
                 Meta.create([
-                    {user: user._id, key: 'site_name', value: data.config.site.name},
-                    {user: user._id, key: 'site_description', value: data.config.site.description}
+                    {key: 'site_name', value: data.config.site.name},
+                    {key: 'site_description', value: data.config.site.description},
+                    {key: 'theme', value: 'default'}
                 ], function (metaErr, metas) {
                     if (!metaErr && metas) {
                         console.log('Meta data migrated');
