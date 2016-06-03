@@ -32,6 +32,7 @@ mongoose.model('Media', mediaSchema);
 var metaSchema = models.metaSchema();
 metaSchema.statics.getSiteName = meta.getSiteName;
 metaSchema.statics.getSiteDescription = meta.getSiteDescription;
+metaSchema.statics.getSelectedTheme = meta.getSelectedTheme;
 mongoose.model('Meta', metaSchema);
 
 mongoose.connection.on('connected', function () {

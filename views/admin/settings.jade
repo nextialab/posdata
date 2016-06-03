@@ -1,0 +1,10 @@
+div.row
+  div.col.col-sm-1
+    p Tema
+  div.col.col-sm-2
+    div.form-group
+      select.form-control(ng-model='theme')
+        option(ng-repeat='theme in themes', value='{{theme}}') {{theme}}
+  div.col.col-sm-2
+    div.form-group
+      button.btn.btn-success(ng-click='saveTheme()') Guardar

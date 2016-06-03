@@ -26,6 +26,10 @@ angular.module('admin', ['ui.router', 'controllers', 'services'])
         url: 'media',
         templateUrl: '/admin/templates/media',
         controller: 'MediaController'
+    }).state('admin.settings', {
+        url: 'settings',
+        templateUrl: '/admin/templates/settings',
+        controller: 'SettingsController'
     });
 }])
 .run(['$rootScope', '$state', 'StorageService', 'SessionService', 'APIService', function ($rootScope, $state, StorageService, SessionService, APIService) {

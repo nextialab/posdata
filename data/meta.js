@@ -6,7 +6,7 @@ exports.getSiteName = function (callback) {
 			callback.success('');
 		}
 	});
-}
+};
 
 exports.getSiteDescription = function (callback) {
 	this.findOne({key: 'site_description'}).exec(function (err, description) {
@@ -16,4 +16,14 @@ exports.getSiteDescription = function (callback) {
 			callback.success('');
 		}
 	});
-}
+};
+
+exports.getSelectedTheme = function (callback) {
+	this.findOne({key: 'theme'}).exec(function (err, theme) {
+		if (!err && theme) {
+			callback.success(theme.value);
+		} else {
+			callback.success('default');
+		}
+	});
+};

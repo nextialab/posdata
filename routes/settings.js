@@ -38,9 +38,9 @@ router.get('/:userid/themes', oauth.role('admin'), function (req, res, next) {
 });
 
 router.get('/:userid/key/:key', oauth.role('admin'), function (req, res, next) {
-    Meta.find({key: req.params.key}).exec(function (err, metas) {
-        if (!err && metas) {
-            res.json(metas);
+    Meta.findOne({key: req.params.key}).exec(function (err, meta) {
+        if (!err && meta) {
+            res.json(meta);
         } else {
             res.status(404).json({error: 'Settings were not found for user'});
         }

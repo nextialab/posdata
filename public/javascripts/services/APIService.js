@@ -117,12 +117,53 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                 callback.success(data.data);
             }, function (error) {
                 callback.error(error);
-            })
+            });
         },
         getMedia: function (callback) {
             $http({
                 method: 'GET',
                 url: url + 'media/' + userid,
+                headers: {
+                    'Authorization': token
+                }
+            }).then(function (data) {
+                callback.success(data.data);
+            }, function (error) {
+                callback.error(error);
+            });
+        },
+        getThemes: function (callback) {
+            $http({
+                method: 'GET',
+                url: url + 'settings/' + userid + '/themes',
+                headers: {
+                    'Authorization': token
+                }
+            }).then(function (data) {
+                callback.success(data.data);
+            }, function (error) {
+                callback.error(error);
+            });
+        },
+        getSetting: function (key, callback) {
+            $http({
+                method: 'GET',
+                url: url + 'settings/' + userid + '/key/' + key,
+                headers: {
+                    'Authorization': token
+                }
+            }).then(function (data) {
+                callback.success(data.data.value);
+            }, function (error) {
+                callback.error(error);
+            });
+        },
+        saveSetting: function (key, value, callback) {
+            $http({
+                method: 'POST',
+                url: url + 'settings/' + userid + '/key',
+                data: {key: key, value: value},
+                responseType: 'json',
                 headers: {
                     'Authorization': token
                 }
