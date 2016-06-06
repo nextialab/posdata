@@ -15,6 +15,7 @@ mongoose.model('User', userSchema);
 /* Token Schema */
 var tokenSchema = models.tokenSchema();
 tokenSchema.statics.findToken = token.findToken;
+tokenSchema.statics.updateToken = token.updateToken;
 tokenSchema.statics.isAuthenticated = token.isAuthenticated;
 mongoose.model('Token', tokenSchema);
 /* Post Schema */

@@ -17,7 +17,7 @@ exports.tokenSchema = function () {
     return new mongoose.Schema({
         user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     	token: {type: String, unique: true},
-        //TODO: expires: Date,
+        expires: Date,
     	createdOn: {type: Date, default: Date.now}
     });
 };

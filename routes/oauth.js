@@ -12,7 +12,7 @@ router.post('/', valid.validate(['email', 'password']), function (req, res, next
         onResult: function (user) {
             Token.findToken(user, {
                 onResult: function (token) {
-                    res.json({token: token.token, userid: token.user});
+                    res.json({token: token.token, userid: token.user, expires: token.expires});
                 },
                 onError: function () {
                     res.status(500).json({error: 'Could not create token'});
@@ -26,15 +26,30 @@ router.post('/', valid.validate(['email', 'password']), function (req, res, next
 });
 
 router.post('/:userid/refresh', oauth.basic(), function (req, res, next) {
-    // TODO: implement token refresh
+    var userid = mongoose.Types.ObjectId(req.params.userid);
+    Token.updateToken(userid, {
+        onResult: function (token) {
+            res.json({token: token.token, expires: token.expires});
+        },
+        onError: function () {
+            res.status(404).json({error: 'Could not refresh token for user'});
+        }
+    });
 });
 
+// For security reasons we always returns a 200 response in this request
 router.delete('/:userid/revoke', oauth.basic(), function (req, res, next) {
-    // TODO: implement token revoke
+    Token.remove({token: req.headers.authorization}, function (err) {
+        res.json({success: 'Token revoked'});
+    });
 });
 
+// For security reasons we always returns a 200 response in this request
 router.delete('/:userid/revoke/all', oauth.basic(), function (req, res, next) {
-    // TODO: implement token revoke all
+    var userid = mongoose.Types.ObjectId(req.params.userid);
+    Token.remove({user: userid}, function (err) {
+        res.json({success: 'Tokens revoked'});
+    });
 });
 
 module.exports = router;
