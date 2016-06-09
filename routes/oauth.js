@@ -12,7 +12,12 @@ router.post('/', valid.validate(['email', 'password']), function (req, res, next
         onResult: function (user) {
             Token.findToken(user, {
                 onResult: function (token) {
-                    res.json({token: token.token, userid: token.user, expires: token.expires});
+                    res.json({
+                        token: token.token,
+                        userid: token.user,
+                        role: user.role,
+                        expires: token.expires
+                    });
                 },
                 onError: function () {
                     res.status(500).json({error: 'Could not create token'});

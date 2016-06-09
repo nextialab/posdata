@@ -32,10 +32,10 @@ exports.findToken = function (user, callback) {
 
 exports.updateToken = function (userid, callback) {
     var model = this;
-    model.finOne({user: userid}).exec(function (err, token) {
+    model.findOne({user: userid}).exec(function (err, token) {
         if (!err && token) {
             var now = new Date();
-            var expires = new Date(now.geTime() + live);
+            var expires = new Date(now.getTime() + live);
             token.expires = expires;
             token.token = uuid.v4();
             token.save(function (err) {

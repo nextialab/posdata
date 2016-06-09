@@ -48,9 +48,8 @@ angular.module('admin', ['ui.router', 'controllers', 'services'])
     });
     var token = StorageService.getItem('token');
     var userid = StorageService.getItem('userid');
-    console.log(token + ' ' + userid);
-    if (token.length > 0 && userid.length > 0) {
-        console.log('logged');
+    var role = StorageService.getItem('role');
+    if (token.length > 0 && userid.length > 0 && role.length > 0 && role === 'admin') {
         APIService.setToken(token);
         APIService.setUserid(userid);
         SessionService.setState(SessionService.LOGGED_IN);

@@ -5,9 +5,14 @@ angular.module('controllers').controller('LoginController', ['$scope', '$state',
     $scope.login = function () {
         SessionService.login($scope.username, $scope.password, {
             success: function (token) {
-                StorageService.setItem('token', token.token);
-                StorageService.setItem('userid', token.userid);
-                $state.go('admin.home');
+                if (token.role === 'admin') {
+                    StorageService.setItem('token', token.token);
+                    StorageService.setItem('userid', token.userid);
+                    StorageService.setItem('role', token.role);
+                    $state.go('admin.home');
+                } else {
+                    console.log({error: 'User does not have required role'});
+                }
             },
             error: function (error) {
                 console.log(error);
