@@ -5,20 +5,20 @@ exports.dbURI = 'mongodb://localhost/posdata';
 exports.userSchema = function () {
     return new mongoose.Schema({
         email: {type: String, unique: true},
-    	password: String,
-    	role: String,
-    	name: String,
-    	createdOn: {type: Date, default: Date.now},
-    	modifiedOn: {type: Date, default: Date.now}
+        password: String,
+        role: String,
+        name: String,
+        createdOn: {type: Date, default: Date.now},
+        modifiedOn: {type: Date, default: Date.now}
     });
 };
 
 exports.tokenSchema = function () {
     return new mongoose.Schema({
         user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    	token: {type: String, unique: true},
+        token: {type: String, unique: true},
         expires: Date,
-    	createdOn: {type: Date, default: Date.now}
+        createdOn: {type: Date, default: Date.now}
     });
 };
 
@@ -32,21 +32,21 @@ exports.tagSchema = function () {
 
 exports.postSchema = function () {
     return new mongoose.Schema({
-    	uri: String,
+        uri: String,
         type: {type: String, default: 'post'},
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    	normalized: String,
-    	title: String,
+        normalized: String,
+        title: String,
         image: {type: String, default: ''},
         summary: {type: String, default: ''},
         videoUrl: {type: String, default: ''},
         markdown: {type: String, default: ''},
-    	content: {type: String, default: ''},
+        content: {type: String, default: ''},
         tags: [String],
         language: {type: String, default: 'es'},
-    	status: {type: String, default: 'draft'},
-    	createdOn: {type: Date, default: Date.now},
-    	modifiedOn: {type: Date, default: Date.now}
+        status: {type: String, default: 'draft'},
+        createdOn: {type: Date, default: Date.now},
+        modifiedOn: {type: Date, default: Date.now}
     });
 };
 
@@ -72,11 +72,11 @@ exports.questionSchema = function () {
 
 exports.mediaSchema = function () {
     return new mongoose.Schema({
-    	user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    	path: {type: String, unique: true},
+        user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        path: {type: String, unique: true},
         label: {type: String, default: ''},
         caption: {type: String, default: ''},
-    	createdOn: {type: Date, default: Date.now},
+        createdOn: {type: Date, default: Date.now},
         modifiedOn: {type: Date, default: Date.now}
     });
 };
