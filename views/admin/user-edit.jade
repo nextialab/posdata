@@ -1,0 +1,10 @@
+form.form-horizontal
+  div.form-group
+    input.form-control(type='text', value='', placeholder='Nombre', ng-model='name')
+  div.form-group
+    textarea.form-control(type='text', value='', placeholder='Acerca de ti', ng-model='about')
+  div.form-group
+    div.col.col-sm-10
+      input.btn.btn-success(type='submit', value='Guardar', ng-click='save()')
+div(style='position: fixed; right: 10px; bottom: 10px; width: 300px;')
+  div(uib-alert='', ng-repeat='alert in alerts', type='{{alert.type}}', close='closeAlert($index)', dismiss-on-timeout='3000') {{alert.msg}}

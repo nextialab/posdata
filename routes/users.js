@@ -38,8 +38,8 @@ router.get('/:userid', oauth.basic(), function (req, res, next) {
 router.put('/:userid', oauth.basic(), function (req, res, next) {
     User.findById(mongoose.Types.ObjectId(req.params.userid), function (err, user) {
         if (!err && user) {
-            if (req.body.email) { user.email = req.body.email; }
             if (req.body.name) { user.name = req.body.name; }
+            if (req.body.about) { user.about = req.body.about; }
             user.save(function (err) {
                 if (!err) {
                     res.json(user);

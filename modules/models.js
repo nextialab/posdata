@@ -8,6 +8,10 @@ exports.userSchema = function () {
         password: String,
         role: String,
         name: String,
+        avatar: {type: String, default: ''},
+        about: {type: String, default: ''},
+        language: {type: String, default: 'es'},
+        facebookId: {type: String, default: ''},
         createdOn: {type: Date, default: Date.now},
         modifiedOn: {type: Date, default: Date.now}
     });

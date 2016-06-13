@@ -10,14 +10,14 @@ div.form-group
       span.glyphicon.glyphicon-link
     button.btn.btn-default(type='button', aria-hidden='true', ng-click='seePreview()')
       span.glyphicon.glyphicon-play
-    button.btn.btn-default(type='button', aria-hidden='true')
+    button.btn.btn-default(type='button', aria-hidden='true', ng-click='seeHelp()')
       span.glyphicon.glyphicon-info-sign
 div.form-group(ng-show='isVideo()')
   input.form-control(type='text', value='', placeholder='Video URL', ng-model='videoUrl')
-div.row(ng-show='isImage()')
+div.row
   div.col.col-sm-2
     div.form-group
-      button.btn.btn-success.form-control(ng-click='addImage()') Modificar
+      button.btn.btn-success.form-control(ng-click='addImage()') Modificar imagen
   div.col.col-sm-4
     p {{image}}
 div.form-group

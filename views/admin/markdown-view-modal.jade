@@ -1,0 +1,49 @@
+div.panel-heading
+  h3 Markdown
+div.panel-body
+  h3 Encabezados
+  p Ejemplo:
+  pre # H1
+    | ## H2
+    | ### H3
+  p Se convierte en:
+  h1 H1
+  h2 H2
+  h3 H3
+  h3 Enfasis
+  p Ejemplo:
+  pre *italica* o _italica_
+    | **negrita** o __negrita__
+    | Tachado: ~~Tachado~~
+  p Se convierte en:
+  p #[i italica] o #[i italica]
+  p #[b negrita] o #[b negrita]
+  p Tachado: #[del Tachado] 
+  h3 Listas ordenadas
+  p Ejemplo:
+  pre 1. Primero
+    | 2. Segundo
+    | 3. Tercero
+  p Se convierte en:
+  ol
+    li Primero
+    li Segundo
+    li Tercero
+  h3 Listas no ordenadas
+  p Se pueden usar *, - o +. Ejemplo:
+  pre * Un item
+    | - Otro item
+    | + Aun otro item
+  p Se convierte en:
+  ul
+    li Un item
+    li Otro item
+    li Aun otro item
+  h3 Citas
+  p Ejemplo:
+  pre > Vine, vi y venci
+  p Se convierte en:
+  blockquote
+    p Vine, vi y venci
+div.panel-footer
+  button.btn.btn-success Salir

@@ -78,6 +78,11 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
             console.log('modal dismissed');
         });
     };
+    $scope.seeHelp = function () {
+        $uibModal.open({
+            templateUrl: '/admin/templates/markdown-view-modal'
+        });
+    };
     $scope.disabled = function () {
         return $scope.loading || $scope.title.length == 0;
     };

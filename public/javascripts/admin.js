@@ -30,6 +30,10 @@ angular.module('admin', ['ui.router', 'controllers', 'services'])
         url: 'settings',
         templateUrl: '/admin/templates/settings',
         controller: 'SettingsController'
+    }).state('admin.user', {
+        url: 'user',
+        templateUrl: '/admin/templates/user-edit',
+        controller: 'UserEditController'
     });
 }])
 .run(['$rootScope', '$state', 'StorageService', 'SessionService', 'APIService', function ($rootScope, $state, StorageService, SessionService, APIService) {

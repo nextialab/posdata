@@ -41,6 +41,21 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                 callback.error(error);
             })
         },
+        saveUser: function (data, callback) {
+            $http({
+                method: 'PUT',
+                url: url + 'users/' + userid,
+                responseType: 'json',
+                data: data,
+                headers: {
+                    'Authorization': token
+                }
+            }).then(function (data) {
+                callback.success(data.data);
+            }, function (error) {
+                callback.error(error);
+            });
+        },
         logout: function (callback) {
             token = '';
             userid = '';
