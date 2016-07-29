@@ -4,15 +4,15 @@
  * Module dependencies.
  */
 
-var app = require('../www');
-var debug = require('debug')('posdata:www');
+var app = require('../api');
+var debug = require('debug')('posdata:api');
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort('3000');
+var port = normalizePort('3001');
 app.set('port', port);
 
 /**
