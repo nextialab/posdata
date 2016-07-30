@@ -4,8 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var proxy = require('http-proxy-middleware');
 
-var database = require('./data/data');
 var admin = require('./routes/admin');
 
 var app = express();
@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', admin);
+app.use('/api/*', proxy('http://localhost:3001/'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
