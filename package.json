@@ -3,8 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "www": "node ./bin/www",
-    "api": "node ./bin/api",
     "start": "node ./bin/admin"
   },
   "dependencies": {
@@ -23,6 +21,6 @@
     "mime": "1.3.4",
     "marked": "0.3.5",
     "node-minify": "1.3.7",
-    "http-proxy-middleware": "0.17.0 "
+    "http-proxy-middleware": "0.17.1"
   }
 }
