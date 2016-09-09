@@ -11,11 +11,11 @@ var admin = require('./routes/admin');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views/admin'));
 app.set('view engine', 'jade');
 
 // Setting up proxy
-app.use('/api', proxy({target: 'http://localhost:3001/', pathRewrite: {'/api': '/'} , logLevel: 'debug'}));
+app.use('/api', proxy({target: 'http://localhost:3001/', pathRewrite: {'/api': ''} , logLevel: 'debug'}));
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

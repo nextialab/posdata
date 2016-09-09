@@ -1,6 +1,6 @@
 'use strict';
 angular.module('services').factory('APIService', ['$http', function ($http) {
-    var url = 'http://localhost:3000/_api/';
+    var url = 'http://localhost:3002/api/';
     var token = '';
     var userid = '';
     return {

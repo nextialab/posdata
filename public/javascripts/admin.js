@@ -3,36 +3,36 @@ angular.module('admin', ['ui.router', 'controllers', 'services'])
     $urlRouterProvider.otherwise("/");
     $stateProvider.state('login', {
         url: '/login',
-        templateUrl: '/admin/templates/login',
+        templateUrl: '/templates/login',
         controller: 'LoginController'
     }).state('admin', {
         url: '/',
         abstract: true,
-        templateUrl: '/admin/templates/panel',
+        templateUrl: '/templates/panel',
         controller: 'MainController'
     }).state('admin.home', {
         url: '',
-        templateUrl: '/admin/templates/home',
+        templateUrl: '/templates/home',
         controller: 'HomeController'
     }).state('admin.posts', {
         url: 'posts',
-        templateUrl: '/admin/templates/posts',
+        templateUrl: '/templates/posts',
         controller: 'PostsController'
     }).state('admin.edit', {
         url: 'posts/:postid',
-        templateUrl: '/admin/templates/post-edit',
+        templateUrl: '/templates/post-edit',
         controller: 'EditPostController'
     }).state('admin.media', {
         url: 'media',
-        templateUrl: '/admin/templates/media',
+        templateUrl: '/templates/media',
         controller: 'MediaController'
     }).state('admin.settings', {
         url: 'settings',
-        templateUrl: '/admin/templates/settings',
+        templateUrl: '/templates/settings',
         controller: 'SettingsController'
     }).state('admin.user', {
         url: 'user',
-        templateUrl: '/admin/templates/user-edit',
+        templateUrl: '/templates/user-edit',
         controller: 'UserEditController'
     });
 }])
