@@ -24,7 +24,7 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                 userid = data.data.userid;
                 callback.success(data.data);
             }, function (error) {
-                callback.error();
+                callback.error(error);
             });
         },
         getUser: function (callback) {

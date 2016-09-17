@@ -8,8 +8,16 @@ exports.normalizeString = function (string) {
     }).join('');
 };
 
-exports.findPostByUri = function(uri, callback) {
-	this.findOne({uri: uri}).exec(function (err, post) {
+exports.findPostByUri = function(uri) {
+	return this.findOne({uri: uri}).exec();
+	/*return new Promise(function (resolve, reject) {
+		this.findOne({uri: uri}).exec().then(function (post) {
+			resolve(post);
+		}, function (err) {
+			reject(err);
+		});
+	});*/
+	/*this.findOne({uri: uri}).exec(function (err, post) {
 		if (!err) {
 			if (post) {
 				callback.onResult(post);
@@ -19,7 +27,7 @@ exports.findPostByUri = function(uri, callback) {
 		} else {
 			callback.onError();
 		}
-	});
+	});*/
 };
 
 exports.findPostById = function (id, callback) {

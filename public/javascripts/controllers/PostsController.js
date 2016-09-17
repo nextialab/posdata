@@ -11,7 +11,7 @@ angular.module('controllers').controller('PostsController', ['$scope', '$uibModa
     });
     $scope.newPost = function () {
         $uibModal.open({
-            templateUrl: '/admin/templates/post-new-modal',
+            templateUrl: '/templates/post-new-modal',
             controller: 'NewPostController'
         }).result.then(function (post) {
             $scope.posts.splice(0, 0, post);

@@ -8,10 +8,10 @@ var Meta = mongoose.model('Meta')
 router.get('/', function (req, res, next) {
     Post.find({status: 'publish'}).sort('-createdOn').exec(function (err, posts) {
         if (!err) {
-            Meta.getSelectedTheme({
-                success: function (theme) {
-                    res.render(theme + '/blog', {title: 'Blog', description: '', posts: posts});
-                }
+            Meta.getSelectedTheme().then(function(theme) {
+                res.render(theme.value + '/blog', {title: 'Blog', description: '', posts: posts});
+            }, function (err) {
+                res.render('default/blog', {title: 'Blog', description: '', posts: posts});
             });
         } else {
             res.status(404);
@@ -76,20 +76,18 @@ router.get('/challenges', function (req, res, next) {
 });
 
 router.get('/post/:uri', function (req, res, next) {
-    Post.findOne({uri: req.params.uri}).exec(function (err, _post) {
-        if (!err) {
-            if (_post && _post.status === 'publish') {
-                Meta.getSelectedTheme({
-                    success: function (theme) {
-                        res.render(theme + '/post', {description: _post.summary, post: _post});
-                    }
-                })
-            } else {
-                res.status(404);
-            }
+    Post.findPostByUri(req.params.uri).then(function (post) {
+        if (post.status === 'publish') {
+            Meta.getSelectedTheme().then(function (theme) {
+                res.render(theme.value + '/post', {description: post.summary, post: post});
+            }, function (err) {
+                res.render('default/post', {description: post.summary, post: post});
+            });
         } else {
-            res.status(400);
+            res.status(404);
         }
+    }, function (err) {
+        res.status(400);
     });
 });
 

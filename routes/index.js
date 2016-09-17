@@ -6,10 +6,10 @@ var Meta = mongoose.model('Meta');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    Meta.getSelectedTheme({
-        success: function (theme) {
-            res.render(theme + '/index', { title: 'Posdata' });
-        }
+    Meta.getSelectedTheme().then(function (theme) {
+        res.render(theme.value + '/index', { title: 'Posdata' });
+    }, function (err) {
+        res.render('default/index', { title: 'Posdata' });
     });
 });
 
