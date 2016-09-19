@@ -6,14 +6,19 @@ exports.basic = function () {
     return function (req, res, next) {
         if (req.headers.authorization && req.params.userid) {
             var userid = mongoose.Types.ObjectId(req.params.userid);
-            Token.isAuthenticated(userid, req.headers.authorization, {
+            Token.isAuthenticated(userid, req.headers.authorization).then(function (token) {
+                next();
+            }, function (err) {
+                res.status(403).json({error: 'User is not authorized'});
+            });
+            /*Token.isAuthenticated(userid, req.headers.authorization, {
                 onResult: function(user) {
                     next();
                 },
                 onError: function () {
                     res.status(403).json({error: 'User is not authorized'});
                 }
-            });
+            });*/
         } else {
             res.status(403).json({error: 'User is not authorized'});
         }
@@ -24,7 +29,16 @@ exports.role = function (role) {
     return function (req, res, next) {
         if (req.headers.authorization && req.params.userid) {
             var userid = mongoose.Types.ObjectId(req.params.userid);
-            Token.isAuthenticated(userid, req.headers.authorization, {
+            Token.isAuthenticated(userid, req.headers.authorization).then(function (token) {
+                if (token.user.role === role) {
+                    next();
+                } else {
+                    res.status(403).json({error: 'User is not authorized'});
+                }
+            }, function (err) {
+                res.status(403).json({error: 'User is not authorized'});
+            });
+            /*Token.isAuthenticated(userid, req.headers.authorization, {
                 onResult: function(user) {
                     if (user.role == role) {
                         next();
@@ -35,7 +49,7 @@ exports.role = function (role) {
                 onError: function () {
                     res.status(403).json({error: 'User is not authorized'});
                 }
-            });
+            });*/
         } else {
             res.status(403).json({error: 'User is not authorized'});
         }

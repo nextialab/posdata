@@ -82,8 +82,9 @@ exports.updateToken = function (userid, callback) {
     });
 }
 
-exports.isAuthenticated = function (userid, token, callback) {
-    this.findOne({user: userid, token: token})
+exports.isAuthenticated = function (userid, token) {
+    return this.findOne({user: userid, token: token}).populate('user').exec();
+    /*this.findOne({user: userid, token: token})
     .populate('user')
     .exec(function (err, token) {
         if (!err) {
@@ -95,5 +96,5 @@ exports.isAuthenticated = function (userid, token, callback) {
         } else {
             callback.onError();
         }
-    });
+    });*/
 };
