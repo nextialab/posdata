@@ -11,21 +11,19 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
     $scope.image = '';
     $scope.type = 'post';
     $scope.alerts = [];
-    APIService.getPost($stateParams.postid, {
-        success: function (post) {
-            $scope.title = post.title;
-            $scope.content = post.markdown;
-            $scope.uri = post.uri;
-            $scope.status = post.status;
-            $scope.summary = post.summary;
-            $scope.videoUrl = post.videoUrl;
-            $scope.image = post.image;
-            $scope.type = post.type;
-            $scope.tags = post.tags.join(', ');
-        },
-        error: function (error) {
-            $scope.alerts.push({type: 'danger', msg: 'Post no existe'});
-        }
+    APIService.getPost($stateParams.postid).then(function (data) {
+        var post = data.data;
+        $scope.title = post.title;
+        $scope.content = post.markdown;
+        $scope.uri = post.uri;
+        $scope.status = post.status;
+        $scope.summary = post.summary;
+        $scope.videoUrl = post.videoUrl;
+        $scope.image = post.image;
+        $scope.type = post.type;
+        $scope.tags = post.tags.join(', ');
+    }, function (err) {
+        $scope.alerts.push({type: 'danger', msg: 'Post no existe'});
     });
     $scope.isVideo = function () {
         return $scope.type === 'video';
@@ -97,14 +95,11 @@ angular.module('controllers').controller('EditPostController', ['$scope', '$uibM
             image: $scope.image,
             tags: $scope.tags,
         };
-        APIService.updatePost($stateParams.postid, data, {
-            success: function (post) {
-                $scope.loading = false;
-                $scope.alerts.push({type: 'success', msg: 'Guardado'});
-            },
-            error: function (error) {
-                $scope.alerts.push({type: 'danger', msg: 'No se pudo guardar'});
-            }
+        APIService.updatePost($stateParams.postid, data).then(function (data) {
+            $scope.loading = false;
+            $scope.alerts.push({type: 'success', msg: 'Guardado'});
+        }, function (err) {
+            $scope.alerts.push({type: 'danger', msg: 'No se pudo guardar'});
         });
     };
     $scope.closeAlert = function (index) {

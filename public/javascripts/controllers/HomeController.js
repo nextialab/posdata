@@ -10,13 +10,11 @@ angular.module('controllers').controller('HomeController', ['$scope', 'APIServic
     } else {
         $scope.greeting = 'Buenas noches';
     }
-    APIService.getUser({
-        success: function (user) {
-            $scope.username = user.name;
-        },
-        error: function (error) {
-            console.log(error);
-        }
+    APIService.getUser().then(function (data) {
+        var user = data.data;
+        $scope.username = user.name;
+    }, function (err) {
+        console.log(error);
     });
     SectionService.setCurrentSection(SectionService.HOME);
 }]);

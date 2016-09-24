@@ -1,5 +1,5 @@
 'use strict';
-angular.module('services').factory('APIService', ['$http', function ($http) {
+angular.module('services').factory('APIService', ['$http', '$q' function ($http, $q) {
     var url = 'http://localhost:3002/api/';
     var token = '';
     var userid = '';
@@ -13,36 +13,34 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
         getUserid: function () {
             return userid;
         },
-        login: function (email, password, callback) {
-            $http({
-                method: 'POST',
-                url: url + 'oauth',
-                data: {email: email, password: password},
-                responseType: 'json'
-            }).then(function (data) {
-                token = data.data.token;
-                userid = data.data.userid;
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
+        login: function (email, password) {
+            return $q(function (resolve, reject) {
+                $http({
+                    method: 'POST',
+                    url: url + 'oauth',
+                    data: {email: email, password: password},
+                    responseType: 'json'
+                }).then(function (data) {
+                    token = data.data.token;
+                    userid = data.data.userid;
+                    resolve(data);
+                }, function (error) {
+                    reject(error);
+                })
             });
         },
-        getUser: function (callback) {
-            $http({
+        getUser: function () {
+            return $http({
                 method: 'GET',
                 url: url + 'users/' + userid,
                 responseType: 'json',
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
-            })
+            });
         },
-        saveUser: function (data, callback) {
-            $http({
+        saveUser: function (data) {
+            return $http({
                 method: 'PUT',
                 url: url + 'users/' + userid,
                 responseType: 'json',
@@ -50,33 +48,24 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
             });
         },
-        logout: function (callback) {
+        logout: function () {
             token = '';
             userid = '';
-            callback.success();
         },
         getPosts: function (callback) {
-            $http({
+            return $http({
                 method: 'GET',
                 url: url + 'posts/' + userid,
                 responseType: 'json',
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
             });
         },
-        createPost: function (title, summary, type, callback) {
-            $http({
+        createPost: function (title, summary, type) {
+            return $http({
                 method: 'POST',
                 url: url + 'posts/' + userid,
                 data: {title: title, summary: summary, type: type},
@@ -84,28 +73,20 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
             });
         },
         getPost: function (postid, callback) {
-            $http({
+            return $http({
                 method: 'GET',
                 url: url + 'posts/' + userid + '/post/' + postid,
                 responseType: 'json',
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
             });
         },
         updatePost: function (postid, data, callback) {
-            $http({
+            return $http({
                 method: 'PUT',
                 url: url + 'posts/' + userid + '/post/' + postid,
                 data: data,
@@ -113,14 +94,10 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
             });
         },
         uploadMedia: function (data, callback) {
-            $http({
+            return $http({
                 method: 'POST',
                 url: url + 'media/' + userid,
                 data: data,
@@ -128,53 +105,37 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                     'Authorization': token,
                     'Content-Type': undefined
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
             });
         },
         getMedia: function (callback) {
-            $http({
+            return $http({
                 method: 'GET',
                 url: url + 'media/' + userid,
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
             });
         },
         getThemes: function (callback) {
-            $http({
+            return $http({
                 method: 'GET',
                 url: url + 'settings/' + userid + '/themes',
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
             });
         },
         getSetting: function (key, callback) {
-            $http({
+            return $http({
                 method: 'GET',
                 url: url + 'settings/' + userid + '/key/' + key,
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data.value);
-            }, function (error) {
-                callback.error(error);
             });
         },
         saveSetting: function (key, value, callback) {
-            $http({
+            return $http({
                 method: 'POST',
                 url: url + 'settings/' + userid + '/key',
                 data: {key: key, value: value},
@@ -182,11 +143,7 @@ angular.module('services').factory('APIService', ['$http', function ($http) {
                 headers: {
                     'Authorization': token
                 }
-            }).then(function (data) {
-                callback.success(data.data);
-            }, function (error) {
-                callback.error(error);
-            })
+            });
         }
     };
 }]);

@@ -1,13 +1,10 @@
 'use strict';
 angular.module('controllers').controller('MediaController', ['$scope', 'APIService', 'SectionService', '$uibModal', function ($scope, APIService, SectionService, $uibModal) {
     $scope.medias = [];
-    APIService.getMedia({
-        success: function (_data) {
-            $scope.medias = _data;
-        },
-        error: function (error) {
-            console.log(error);
-        }
+    APIService.getMedia().then(function (data) {
+        $scope.medias = data.data;
+    }, function (err) {
+        console.log(error);
     });
     $scope.newMedia = function () {
         $uibModal.open({

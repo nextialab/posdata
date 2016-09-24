@@ -8,13 +8,10 @@ angular.module('controllers').controller('NewPostController', ['$scope', '$uibMo
         return $scope.loading || $scope.title.length == 0;
     };
     $scope.create = function () {
-        APIService.createPost($scope.title, $scope.summary, $scope.type, {
-            success: function (post) {
-                $uibModalInstance.close(post);
-            },
-            error: function (error) {
-                console.log(error);
-            }
+        APIService.createPost($scope.title, $scope.summary, $scope.type).then(function (data) {
+            $uibModalInstance.close(data.data);
+        }, function (err) {
+            console.log(error);
         });
     };
 }])

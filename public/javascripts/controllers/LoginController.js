@@ -3,20 +3,18 @@ angular.module('controllers').controller('LoginController', ['$scope', '$state',
     $scope.username = '';
     $scope.password = '';
     $scope.login = function () {
-        SessionService.login($scope.username, $scope.password, {
-            success: function (token) {
-                if (token.role === 'admin') {
-                    StorageService.setItem('token', token.token);
-                    StorageService.setItem('userid', token.userid);
-                    StorageService.setItem('role', token.role);
-                    $state.go('admin.home');
-                } else {
-                    console.log({error: 'User does not have required role'});
-                }
-            },
-            error: function (error) {
-                console.log(error);
+        SessionService.login($scope.username, $scope.password).then(function (data) {
+            var token = data.data;
+            if (token.role === 'admin') {
+                StorageService.setItem('token', token.token);
+                StorageService.setItem('userid', token.userid);
+                StorageService.setItem('role', token.role);
+                $state.go('admin.home');
+            } else {
+                console.log({error: 'User does not have required role'});
             }
+        }, function (err) {
+            console.log(error);
         });
     };
     $scope.loginDisabled = function () {

@@ -4,12 +4,9 @@ angular.module('controllers').controller('MediaModalController', ['$scope', '$ui
     $scope.select = function (index) {
         $uibModalInstance.close($scope.medias[index].path);
     };
-    APIService.getMedia({
-        success: function (media) {
-            $scope.medias = media;
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    })
+    APIService.getMedia().then(function (data) {
+        $scope.medias = data.data;
+    }, function (err) {
+        console.log(error);
+    });
 }]);

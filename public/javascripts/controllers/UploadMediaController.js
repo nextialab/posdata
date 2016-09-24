@@ -25,15 +25,12 @@ angular.module('controllers').controller('UploadMediaController', ['$scope', '$u
         formData.append('image', document.getElementById('file').files[0]);
         formData.append('label', $scope.label);
         formData.append('caption', $scope.caption);
-        APIService.uploadMedia(formData, {
-            success: function (data) {
-                $scope.loading = false;
-                $uibModalInstance.close(data);
-            },
-            error: function (error) {
-                $scope.loading = false;
-                console.log(error);
-            }
+        APIService.uploadMedia(formData).then(function (data) {
+            $scope.loading = false;
+            $uibModalInstance.close(data.data);
+        }, function (err) {
+            $scope.loading = false;
+            console.log(error);
         });
     };
 }]);
