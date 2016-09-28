@@ -8,8 +8,13 @@ exports.normalizeString = function (string) {
     }).join('');
 };
 
-exports.findPostByUri = function(uri, callback) {
-	this.findOne({uri: uri}).exec(function (err, post) {
+exports.findPostByUri = function(uri) {
+	return this.findOne({uri: uri}).exec();
+};
+
+exports.findPostById = function (id) {
+	return this.findById(id);
+	/*this.findById(id, function (err, post) {
 		if (!err) {
 			if (post) {
 				callback.onResult(post);
@@ -19,26 +24,26 @@ exports.findPostByUri = function(uri, callback) {
 		} else {
 			callback.onError();
 		}
-	});
+	});*/
 };
 
-exports.findPostById = function (id, callback) {
-	this.findById(id, function (err, post) {
-		if (!err) {
-			if (post) {
-				callback.onResult(post);
-			} else {
-				callback.onError();
-			}
-		} else {
-			callback.onError();
-		}
-	});
-};
-
-exports.getUniqueUriForNewPost = function (title, callback) {
+exports.getUniqueUriForNewPost = function (title) {
 	var normalized = this.normalizeString(title);
-	this.find({normalized: normalized}).exec(function (err, uris) {
+	var model = this;
+	return new Promise(function (resolve, reject) {
+		model.find({normalized: normalized}).exec().then(function (uris) {
+			var result = {uri: normalized, normalized: normalized};
+			if (uris.length > 0) {
+				result.uri = normalized + '_' + uris.length;
+			}
+			console.log(result);
+			resolve(result);
+		}, function (err) {
+			console.log(err);
+			reject(err);
+		});
+	});
+	/*this.find({normalized: normalized}).exec(function (err, uris) {
 		if (!err) {
 			if (uris.length > 0) {
 				var newUri = normalized + '_' + uris.length;
@@ -49,12 +54,25 @@ exports.getUniqueUriForNewPost = function (title, callback) {
 		} else {
 			callback.onError(err);
 		}
-	});
+	});*/
 };
 
-exports.getUniqueUriForExistingPost = function (id, title, callback) {
+exports.getUniqueUriForExistingPost = function (id, title) {
 	var normalized = this.normalizeString(title);
-	this.find({_id: {$ne: id}, normalized: normalized}).exec(function (err, uris) {
+	var model = this;
+	return new Promise(function (resolve, reject) {
+		model.find({_id: {$ne: id}, normalized: normalized}).exec().then(function (uris) {
+			if (uris.length > 0) {
+				var newUri = normalized + '_' + uris.length;
+				resolve(newUri, normalized);
+			} else {
+				resolve(normalized, normalized);
+			}
+		}, function (err) {
+			reject(err);
+		});
+	});
+	/*this.find({_id: {$ne: id}, normalized: normalized}).exec(function (err, uris) {
 		if (!err) {
 			if (uris.length > 0) {
 				var newUri = normalized + '_' + uris.length;
@@ -65,5 +83,5 @@ exports.getUniqueUriForExistingPost = function (id, title, callback) {
 		} else {
 			callback.onError(err);
 		}
-	});
+	});*/
 };

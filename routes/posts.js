@@ -10,96 +10,77 @@ var marked = require('marked');
 
 router.get('/:userid', oauth.basic(), function (req, res, next) {
     var userid = mongoose.Types.ObjectId(req.params.userid);
-    Post.find({author: userid}).sort('-createdOn').exec(function (err, posts) {
-        if (!err && posts) {
-            res.json(posts);
-        } else {
-            res.status(404).json({error: 'Posts were not found for user'});
-        }
+    Post.find({author: userid}).sort('-createdOn').exec().then(function (posts) {
+        res.json(posts);
+    }, function (err) {
+        res.status(404).json({error: 'Posts were not found for user'});
     });
 });
 
 router.post('/:userid', oauth.basic(), valid.validate(['title', 'type']), function (req, res, next) {
-    Post.getUniqueUriForNewPost(req.body.title, {
-        onResult: function (uri, normalized) {
-            var userid = mongoose.Types.ObjectId(req.params.userid);
-            var newPost = {
-                author: userid,
-                uri: uri,
-                normalized: normalized,
-                type: req.body.type,
-                title: req.body.title
-            };
-            if (req.body.summary) { newPost.summary = req.body.summary; }
-            Post.create(newPost, function (err, post) {
-                if (!err && post) {
-                    res.json(post);
-                } else {
-                    res.status(500).json({error: 'Could not create post for user'});
-                }
-            });
-        },
-        onError: function () {
-            res.status(409).json({error: 'URI collision'});
-        }
+    Post.getUniqueUriForNewPost(req.body.title).then(function (uri) {
+        var userid = mongoose.Types.ObjectId(req.params.userid);
+        var newPost = {
+            author: userid,
+            uri: uri.uri,
+            normalized: uri.normalized,
+            type: req.body.type,
+            title: req.body.title
+        };
+        if (req.body.summary) { newPost.summary = req.body.summary; }
+        return Post.create(newPost);
+    }).then(function (post) {
+        console.log(post);
+        res.json(post);
+    }).catch(function (err) {
+        console.log(err);
+        res.status(400).json({error: 'Bad request'});
     });
 });
 
 router.get('/:userid/post/:postid', oauth.basic(), function (req, res, next) {
-    Post.findById(mongoose.Types.ObjectId(req.params.postid), function (err, post) {
-        if (!err && post) {
+    Post.findById(mongoose.Types.ObjectId(req.params.postid)).then(function (post) {
+        if (post) {
             res.json(post);
         } else {
             res.status(404).json({error: 'Post not found'});
         }
+    }, function (err) {
+        res.status(404).json({error: 'Post not found'});
     });
 });
 
 router.put('/:userid/post/:postid', oauth.basic(), function (req, res, next) {
-    Post.findById(mongoose.Types.ObjectId(req.params.postid), function (errPost, post) {
-        if (!errPost && post) {
-            function savePost(postToSave) {
-                if (req.body.summary) { postToSave.summary = req.body.summary; }
-                if (req.body.content) {
-                    postToSave.markdown = req.body.content;
-                    postToSave.content = marked(req.body.content);
-                }
-                if (req.body.status) { postToSave.status = req.body.status; }
-                if (req.body.language) { postToSave.language = req.body.language; }
-                if (req.body.type) { postToSave.type = req.body.type; }
-                if (req.body.videoUrl) { postToSave.videoUrl = req.body.videoUrl; }
-                if (req.body.image) { postToSave.image = req.body.image; }
-                if (req.body.tags) {
-                    postToSave.tags = req.body.tags.split(",").map(function (str) {
-                        return str.trim();
-                    });
-                }
-                postToSave.save(function (err) {
-                    if (!err) {
-                        res.json(postToSave);
-                    } else {
-                        res.status(500).json({error: 'Could not save post'});
-                    }
+    Post.findById(mongoose.Types.ObjectId(req.params.postid)).then(function (post) {
+        Post.getUniqueUriForExistingPost(post._id, req.body.title).then(function (uri, normalized) {
+            post.title = req.body.title;
+            post.uri = uri;
+            post.normalized = normalized;
+            if (req.body.summary) { post.summary = req.body.summary; }
+            if (req.body.content) {
+                post.markdown = req.body.content;
+                post.content = marked(req.body.content);
+            }
+            if (req.body.status) { post.status = req.body.status; }
+            if (req.body.language) { post.language = req.body.language; }
+            if (req.body.type) { post.type = req.body.type; }
+            if (req.body.videoUrl) { post.videoUrl = req.body.videoUrl; }
+            if (req.body.image) { post.image = req.body.image; }
+            if (req.body.tags) {
+                post.tags = req.body.tags.split(",").map(function (str) {
+                    return str.trim();
                 });
             }
-            if (req.body.title && req.body.title !== post.title) {
-                Post.getUniqueUriForExistingPost(post._id, req.body.title, {
-                    onResult: function (uri, normalized) {
-                        post.title = req.body.title;
-                        post.uri = uri;
-                        post.normalized = normalized;
-                        savePost(post);
-                    },
-                    onError: function () {
-                        res.status(409).json({error: 'URI collision'});
-                    }
-                });
-            } else {
-                savePost(post);
-            }
-        } else {
-            res.status(404).json({error: 'Post not found'});
-        }
+            return post.save();
+        }, function (err) {
+            res.status(409).json({error: 'URI collision'});
+        }).then(function (post) {
+            res.json(postToSave);
+        }, function (err) {
+            res.status(500).json({error: 'Could not save post'});
+        });
+    }, function (err) {
+        res.status(404).json({error: 'Post not found'});
     });
 });
 

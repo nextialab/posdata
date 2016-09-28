@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 var models = require('../modules/models');
 
 var dbURI = models.dbURI;

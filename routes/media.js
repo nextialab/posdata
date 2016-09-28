@@ -23,12 +23,10 @@ var uploading = multer({
 });
 
 router.get('/:userid', oauth.basic(), function (req, res, next) {
-    Media.find({user: mongoose.Types.ObjectId(req.params.userid)}).sort('-createdOn').exec(function (err, medias) {
-        if (!err && medias) {
-            res.json(medias);
-        } else {
-            res.status(404).json({error: 'Media was not found for user'});
-        }
+    Media.find({user: mongoose.Types.ObjectId(req.params.userid)}).sort('-createdOn').exec().then(function (medias) {
+        res.json(medias);
+    }, function (err) {
+        res.status(404).json({error: 'Media was not found for user'});
     });
 });
 
@@ -38,30 +36,28 @@ router.post('/:userid', oauth.basic(), uploading.single('image'), function (req,
     newMedia.path = '/uploads/' + req.file.filename
     if (req.body.label) { newMedia.label = req.body.label; }
     if (req.body.caption) { newMedia.caption = req.body.caption; }
-    Media.create(newMedia, function (err, media) {
-        if (!err && media) {
-            res.json(media);
-        } else {
-            res.status(500).json({error: 'Could not create Media'});
-        }
+    Media.create(newMedia).then(function (media) {
+        res.json(media);
+    }, function (err) {
+        res.status(500).json({error: 'Could not create Media'});
     });
 });
 
 router.put('/:userid/media/:mediaid', oauth.basic(), function (req, res, next) {
-    Media.findById(mongoose.Types.ObjectId(req.params.mediaid), function (err, media) {
-        if (!err && media) {
+    Media.findById(mongoose.Types.ObjectId(req.params.mediaid)).then(function (media) {
+        if (media) {
             if (req.body.label) { media.label = req.body.media; }
             if (req.body.caption) { media.caption = req.body.caption; }
-            media.save(function (mediaErr) {
-                if (!mediaErr) {
-                    res.json(media);
-                } else {
-                    res.status(500).json({error: 'Could not update media'});
-                }
+            media.save().then(function (media) {
+                res.json(media);
+            }, function (err) {
+                res.status(500).json({error: 'Could not update media'});
             });
         } else {
             res.status(404).json({error: 'Media was not found'});
         }
+    }, function (err) {
+        res.status(500).json({error: 'Could not find Media'});
     });
 });
 
