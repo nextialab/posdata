@@ -14,7 +14,7 @@ angular.module('controllers').controller('HomeController', ['$scope', 'APIServic
         var user = data.data;
         $scope.username = user.name;
     }, function (err) {
-        console.log(error);
+        console.log(err);
     });
     SectionService.setCurrentSection(SectionService.HOME);
 }]);

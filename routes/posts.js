@@ -18,23 +18,23 @@ router.get('/:userid', oauth.basic(), function (req, res, next) {
 });
 
 router.post('/:userid', oauth.basic(), valid.validate(['title', 'type']), function (req, res, next) {
-    Post.getUniqueUriForNewPost(req.body.title).then(function (uri, normalized) {
+    Post.getUniqueUriForNewPost(req.body.title).then(function (uri) {
         var userid = mongoose.Types.ObjectId(req.params.userid);
         var newPost = {
             author: userid,
-            uri: uri,
-            normalized: normalized,
+            uri: uri.uri,
+            normalized: uri.normalized,
             type: req.body.type,
             title: req.body.title
         };
         if (req.body.summary) { newPost.summary = req.body.summary; }
         return Post.create(newPost);
-    }, function (err) {
-        res.status(409).json({error: 'URI collision'});
     }).then(function (post) {
+        console.log(post);
         res.json(post);
-    }, function (err) {
-        res.status(500).json({error: 'Could not create post for user'});
+    }).catch(function (err) {
+        console.log(err);
+        res.status(400).json({error: 'Bad request'});
     });
 });
 

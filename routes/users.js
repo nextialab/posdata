@@ -24,26 +24,30 @@ router.post('/', valid.validate(['email', 'password', 'name']), function (req, r
 });
 
 router.get('/:userid', oauth.basic(), function (req, res, next) {
-    User.findById(mongoose.Types.ObjectId(req.params.userid)).then(function (user) {
-        res.json(user);
+    User.findById(req.params.userid).exec().then(function (user) {
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({error: 'User not found'});
+        }
     }, function (err) {
         res.status(404).json({error: 'User not found'});
     });
 });
 
 router.put('/:userid', oauth.basic(), function (req, res, next) {
-    User.findById(mongoose.Types.ObjectId(req.params.userid)).then(function (err, user) {
+    User.findById(req.params.userid).exec().then(function (err, user) {
         if (user) {
             if (req.body.name) { user.name = req.body.name; }
             if (req.body.about) { user.about = req.body.about; }
-            user.save().then(function (user) {
-                res.json(user);
-            }, function (err) {
-                res.status(500).json({error: 'Could not update user'});
-            });
+            return user.save();
         } else {
-            res.status(404).json({error: 'User not found'});
+            return Promise.reject();
         }
+    }, function (err) {
+        res.status(404).json({error: 'User not found'});
+    }).then(function (user) {
+        res.json(user);
     }, function (err) {
         res.status(404).json({error: 'User not found'});
     });

@@ -15,21 +15,4 @@ exports.findUserByEmailAndPass = function (email, password) {
             reject(err);
         });
     });
-    /*this.findOne({email: email}).exec(function (err, user) {
-        if (!err) {
-            if (user) {
-                bcrypt.compare(password, user.password, function (err, result) {
-                    if (result) {
-                        callback.onResult(user);
-                    } else {
-                        callback.onError();
-                    }
-                })
-            } else {
-                callback.onError();
-            }
-        } else {
-            callback.onError();
-        }
-    });*/
 };

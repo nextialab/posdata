@@ -32,13 +32,14 @@ exports.getUniqueUriForNewPost = function (title) {
 	var model = this;
 	return new Promise(function (resolve, reject) {
 		model.find({normalized: normalized}).exec().then(function (uris) {
+			var result = {uri: normalized, normalized: normalized};
 			if (uris.length > 0) {
-				var newUri = normalized + '_' + uris.length;
-				resolve(newUri, normalized);
-			} else {
-				resolve(normalized, normalized);
+				result.uri = normalized + '_' + uris.length;
 			}
+			console.log(result);
+			resolve(result);
 		}, function (err) {
+			console.log(err);
 			reject(err);
 		});
 	});

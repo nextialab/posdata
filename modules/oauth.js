@@ -11,14 +11,6 @@ exports.basic = function () {
             }, function (err) {
                 res.status(403).json({error: 'User is not authorized'});
             });
-            /*Token.isAuthenticated(userid, req.headers.authorization, {
-                onResult: function(user) {
-                    next();
-                },
-                onError: function () {
-                    res.status(403).json({error: 'User is not authorized'});
-                }
-            });*/
         } else {
             res.status(403).json({error: 'User is not authorized'});
         }
@@ -38,18 +30,6 @@ exports.role = function (role) {
             }, function (err) {
                 res.status(403).json({error: 'User is not authorized'});
             });
-            /*Token.isAuthenticated(userid, req.headers.authorization, {
-                onResult: function(user) {
-                    if (user.role == role) {
-                        next();
-                    } else {
-                        res.status(403).json({error: 'User is not authorized'});
-                    }
-                },
-                onError: function () {
-                    res.status(403).json({error: 'User is not authorized'});
-                }
-            });*/
         } else {
             res.status(403).json({error: 'User is not authorized'});
         }

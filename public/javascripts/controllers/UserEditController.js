@@ -8,7 +8,7 @@ angular.module('controllers').controller('UserEditController', ['$scope', 'APISe
         $scope.name = user.name;
         $scope.about = user.about;
     }, function (err) {
-        console.log(error);
+        console.log(err);
     });
     $scope.save = function () {
         var data = {

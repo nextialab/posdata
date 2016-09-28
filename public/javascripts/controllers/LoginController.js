@@ -4,6 +4,7 @@ angular.module('controllers').controller('LoginController', ['$scope', '$state',
     $scope.password = '';
     $scope.login = function () {
         SessionService.login($scope.username, $scope.password).then(function (data) {
+            console.log(data.data);
             var token = data.data;
             if (token.role === 'admin') {
                 StorageService.setItem('token', token.token);

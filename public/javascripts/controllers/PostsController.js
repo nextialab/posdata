@@ -2,6 +2,7 @@
 angular.module('controllers').controller('PostsController', ['$scope', '$uibModal', 'APIService', 'SectionService', function ($scope, $uibModal, APIService, SectionService) {
     $scope.posts = [];
     APIService.getPosts().then(function (data) {
+        console.log(data);
         $scope.posts = data.data;
     }, function (err) {
         console.log(error);
