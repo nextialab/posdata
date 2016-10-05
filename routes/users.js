@@ -24,7 +24,7 @@ router.post('/', valid.validate(['email', 'password', 'name']), function (req, r
 });
 
 router.get('/:userid', oauth.basic(), function (req, res, next) {
-    User.findById(req.params.userid).exec().then(function (user) {
+    User.findById(req.params.userid, 'name').exec().then(function (user) {
         if (user) {
             res.json(user);
         } else {

@@ -23,7 +23,7 @@ var uploading = multer({
 });
 
 router.get('/:userid', oauth.basic(), function (req, res, next) {
-    Media.find({user: mongoose.Types.ObjectId(req.params.userid)}).sort('-createdOn').exec().then(function (medias) {
+    Media.find({user: mongoose.Types.ObjectId(req.params.userid)}, '_id path label caption').sort('-createdOn').exec().then(function (medias) {
         res.json(medias);
     }, function (err) {
         res.status(404).json({error: 'Media was not found for user'});
