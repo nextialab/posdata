@@ -12,7 +12,7 @@ router.post('/', valid.validate(['email', 'password']), function (req, res, next
         Token.findToken(user).then(function (token) {
             res.json({
                 token: token.token,
-                userid: token.user,
+                userid: user.id,
                 role: user.role,
                 expires: token.expires
             });

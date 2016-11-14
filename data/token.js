@@ -1,6 +1,7 @@
 var uuid = require('uuid');
 
 var live = (1000 * 60 * 60 * 24 * 30); // 30 days in milliseconds
+//var live = 1000 * 60; // 30 seconds in milliseconds
 
 exports.findToken = function (user) {
     var model = this;
@@ -8,6 +9,7 @@ exports.findToken = function (user) {
         model.findOne({user: user}).exec().then(function (token) {
             var now = new Date();
             var expires = new Date(now.getTime() + live);
+            var delta = expires.getTime() - now.getTime();
             if (token) {
                 if (now.getTime() >= token.expires) {
                     // update token
@@ -15,17 +17,18 @@ exports.findToken = function (user) {
                     token.token = uuid.v4();
                     token.save(function (err) {
                         if (!err) {
-                            resolve(token);
+                            resolve({token: token.token, expires: delta});
                         } else {
                             reject({reason: 'internal', err: err});
                         }
                     });
                 } else {
-                    resolve(token);
+                    delta = token.expires.getTime() - now.getTime();
+                    resolve({token: token.token, expires: delta});
                 }
             } else {
                 model.create({user: user._id, token: uuid.v4(), expires: expires}).then(function (token) {
-                    resolve(token);
+                    resolve({token: token.token, expires: delta});
                 }, function (err) {
                     reject({reason: 'internal', err: err});
                 });
@@ -34,31 +37,6 @@ exports.findToken = function (user) {
             reject({reason: 'internal', err: err});
         });
     });
-    /*var model = this;
-    model.findOne({user: user}).exec(function (err, token) {
-        if (!err) {
-            if (token) {
-                var now = new Date();
-                if (now.getTime() >= token.expires) {
-                    callback.onError('{reason: "expired"}');
-                } else {
-                    callback.onResult(token);
-                }
-            } else {
-                var now = new Date();
-                var expires = new Date(now.getTime() + live);
-                model.create({user: user._id, token: uuid.v4(), expires: expires}, function (err, token) {
-                    if (!err) {
-                        callback.onResult(token);
-                    } else {
-                        callback.onError(err);
-                    }
-                });
-            }
-        } else {
-            callback.onError(err);
-        }
-    });*/
 };
 
 exports.updateToken = function (userid, callback) {
@@ -67,11 +45,12 @@ exports.updateToken = function (userid, callback) {
         if (!err && token) {
             var now = new Date();
             var expires = new Date(now.getTime() + live);
+            var delta = expires.getTime() - now.getTime();
             token.expires = expires;
             token.token = uuid.v4();
             token.save(function (err) {
                 if (!err) {
-                    callback.onResult(token);
+                    callback.onResult({token: token.token, expires: delta});
                 } else {
                     callback.onError();
                 }
@@ -83,18 +62,17 @@ exports.updateToken = function (userid, callback) {
 }
 
 exports.isAuthenticated = function (userid, token) {
-    return this.findOne({user: userid, token: token}).populate('user').exec();
-    /*this.findOne({user: userid, token: token})
-    .populate('user')
-    .exec(function (err, token) {
-        if (!err) {
-            if (token) {
-                callback.onResult(token.user);
+    var model = this;
+    return new Promise(function (resolve, reject) {
+        model.findOne({user: userid, token: token}).populate('user').exec().then(function (token) {
+            var now = new Date();
+            if (token.expires > now.getTime()) {
+                resolve(token);
             } else {
-                callback.onError();
+                reject();
             }
-        } else {
-            callback.onError();
-        }
-    });*/
+        }, function (err) {
+            reject(err);
+        });
+    });
 };
