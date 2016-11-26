@@ -1,0 +1,7 @@
+site:
+  name: Posdata
+  description: Content management system for online learning resources
+admin:
+  email: email
+  password: password
+  name: name

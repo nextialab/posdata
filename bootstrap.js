@@ -1,4 +1,6 @@
-var data = require('./config');
+var yaml = require('yamljs');
+
+var data = yaml.load('config.yml');
 
 var mongoose = require('mongoose');
 var models = require('./modules/models');
@@ -8,19 +10,19 @@ var dbURI = models.dbURI;
 
 function migrate() {
     var User = mongoose.model('User', models.userSchema());
-    bcrypt.hash(data.config.admin.password, 10, function (err, hash) {
+    bcrypt.hash(data.admin.password, 10, function (err, hash) {
         User.create({
-            email: data.config.admin.email,
+            email: data.admin.email,
             password: hash,
             role: 'admin',
-            name: data.config.admin.name
+            name: data.admin.name
         }, function (userErr, user) {
             if (!userErr && user) {
                 console.log('User migrated');
                 var Meta = mongoose.model('Meta', models.metaSchema());
                 Meta.create([
-                    {key: 'site_name', value: data.config.site.name},
-                    {key: 'site_description', value: data.config.site.description},
+                    {key: 'site_name', value: data.site.name},
+                    {key: 'site_description', value: data.site.description},
                     {key: 'theme', value: 'default'}
                 ], function (metaErr, metas) {
                     if (!metaErr && metas) {
