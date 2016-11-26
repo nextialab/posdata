@@ -17,14 +17,13 @@ router.get('/:userid', oauth.basic(), function (req, res, next) {
     });
 });
 
-router.post('/:userid', oauth.basic(), valid.validate(['title', 'type']), function (req, res, next) {
+router.post('/:userid', oauth.basic(), valid.validate(['title']), function (req, res, next) {
     Post.getUniqueUriForNewPost(req.body.title).then(function (uri) {
         var userid = mongoose.Types.ObjectId(req.params.userid);
         var newPost = {
             author: userid,
             uri: uri.uri,
             normalized: uri.normalized,
-            type: req.body.type,
             title: req.body.title
         };
         if (req.body.summary) { newPost.summary = req.body.summary; }
@@ -56,16 +55,12 @@ router.put('/:userid/post/:postid', oauth.basic(), function (req, res, next) {
             post.title = req.body.title;
             post.uri = uri;
             post.normalized = normalized;
-            if (req.body.summary) { post.summary = req.body.summary; }
             if (req.body.content) {
                 post.markdown = req.body.content;
                 post.content = marked(req.body.content);
             }
             if (req.body.status) { post.status = req.body.status; }
             if (req.body.language) { post.language = req.body.language; }
-            if (req.body.type) { post.type = req.body.type; }
-            if (req.body.videoUrl) { post.videoUrl = req.body.videoUrl; }
-            if (req.body.image) { post.image = req.body.image; }
             if (req.body.tags) {
                 post.tags = req.body.tags.split(",").map(function (str) {
                     return str.trim();

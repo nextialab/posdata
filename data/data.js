@@ -36,6 +36,9 @@ metaSchema.statics.getSiteName = meta.getSiteName;
 metaSchema.statics.getSiteDescription = meta.getSiteDescription;
 metaSchema.statics.getSelectedTheme = meta.getSelectedTheme;
 mongoose.model('Meta', metaSchema);
+/* Archetype Schema */
+var archetypeSchema = models.archetypeSchema();
+mongoose.model('Archetype', archetypeSchema);
 
 mongoose.connection.on('connected', function () {
 	console.log('Mongoose connected to ' + dbURI);

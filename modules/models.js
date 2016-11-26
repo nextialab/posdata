@@ -37,18 +37,17 @@ exports.tagSchema = function () {
 exports.postSchema = function () {
     return new mongoose.Schema({
         uri: String,
-        type: {type: String, default: 'post'},
+        archetype: {type: mongoose.Schema.Types.ObjectId, ref: 'Archetype'},
         author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
         normalized: String,
         title: String,
-        image: {type: String, default: ''},
-        summary: {type: String, default: ''},
-        videoUrl: {type: String, default: ''},
         markdown: {type: String, default: ''},
         content: {type: String, default: ''},
         tags: [String],
         language: {type: String, default: 'es'},
         status: {type: String, default: 'draft'},
+        data: [{key: String, value: String}],
+        children: [{type: mongoose.Scheme.Types.ObjectId, ref: 'Post'}],
         createdOn: {type: Date, default: Date.now},
         modifiedOn: {type: Date, default: Date.now}
     });
@@ -98,6 +97,15 @@ exports.metaSchema = function () {
     return new mongoose.Schema({
         key: String,
         value: String,
+        createdOn: {type: Date, default: Date.now},
+        modifiedOn: {type: Date, default: Date.now}
+    });
+};
+
+exports.archetypeSchema = function () {
+    return new mongoose.Schema({
+        name: {type: String, unique: true},
+        fields: [{key: String, type: String}],
         createdOn: {type: Date, default: Date.now},
         modifiedOn: {type: Date, default: Date.now}
     });
