@@ -10,6 +10,7 @@ var oauth = require('./routes/oauth');
 var users = require('./routes/users');
 var posts = require('./routes/posts');
 var media = require('./routes/media');
+var archetypes = requires('./routes/archetypes');
 var settings = require('./routes/settings');
 
 var app = express();
@@ -25,6 +26,7 @@ app.use('/oauth', oauth);
 app.use('/users', users);
 app.use('/posts', posts);
 app.use('/media', media);
+app.use('/archetypes', archetypes);
 app.use('/settings', settings);
 
 // catch 404 and forward to error handler

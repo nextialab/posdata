@@ -17,11 +17,13 @@ router.get('/:userid', oauth.basic(), function (req, res, next) {
     });
 });
 
-router.post('/:userid', oauth.basic(), valid.validate(['title']), function (req, res, next) {
+router.post('/:userid', oauth.basic(), valid.validate(['title', 'archetype']), function (req, res, next) {
     Post.getUniqueUriForNewPost(req.body.title).then(function (uri) {
         var userid = mongoose.Types.ObjectId(req.params.userid);
+        var archetype = mongoose.Types.ObjectId(req.body.archetype);
         var newPost = {
             author: userid,
+            archetype: archetype,
             uri: uri.uri,
             normalized: uri.normalized,
             title: req.body.title
@@ -59,6 +61,7 @@ router.put('/:userid/post/:postid', oauth.basic(), function (req, res, next) {
                 post.markdown = req.body.content;
                 post.content = marked(req.body.content);
             }
+            if (req.body.archetype) { post.archetype = mongoose.Types.ObjectId(req.body.archetype); }
             if (req.body.status) { post.status = req.body.status; }
             if (req.body.language) { post.language = req.body.language; }
             if (req.body.tags) {
